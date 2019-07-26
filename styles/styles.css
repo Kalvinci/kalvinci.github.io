@@ -1,0 +1,24 @@
+:root {
+    scroll-behavior: smooth;
+}
+
+header {
+    background-color: #fff;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow-x: hidden;
+}
+
+header > h2 {
+    font-family: 'Space Mono';
+}
+
+#profile-pic {
+    height: 250px;
+    width: 250px;
+    border-radius: 50%;
+    border: 1px solid black;
+}
