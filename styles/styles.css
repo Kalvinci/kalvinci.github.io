@@ -1,24 +1,66 @@
 :root {
     scroll-behavior: smooth;
+    --profile-pic-dimension: 20em;
 }
 
-header {
-    background-color: #fff;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    overflow-x: hidden;
+body {
+    background-color: rgb(1,1,1);
 }
 
-header > h2 {
-    font-family: 'Space Mono';
+.white-color {
+    color: #fff;
+}
+
+.space-mono-font {
+    font-family: 'Space Mono', serif;
+}
+
+.heading {
+    word-wrap: break-word;
+}
+
+.sub-heading {
+    word-wrap: break-word;
+    word-spacing: 0.5em;
 }
 
 #profile-pic {
-    height: 250px;
-    width: 250px;
+    height: var(--profile-pic-dimension);
+    width: var(--profile-pic-dimension);
     border-radius: 50%;
-    border: 1px solid black;
+    justify-self: center;
+}
+
+.play-movie {
+    font-size: 3em;
+}
+
+main {
+    
+}
+
+.page-0 {
+    width: 100%;
+    min-height: 100vh;
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-columns: 1.5fr 1fr;
+    align-items: center;
+    justify-items: center;
+    text-align: center;
+}
+
+@media only screen and (max-width: 900px) {
+    .page-0 {
+        width: 100%;
+        min-height: 100vh;
+        display: block;
+        text-align: center;
+    }
+}
+
+.about-me {
+}
+
+.page-1 {
 }
