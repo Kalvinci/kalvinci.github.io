@@ -5,17 +5,15 @@ const profilepic_max_dimension = 250;
 
 const about_me = ['Hi! I am', 'Kalyanasundharam Kathiresan&nbsp;&lt;kalvinci<i>&sol;</i>&gt;', 'A Computer Science engineer, a programmer, and a maverick.', 'I believe hard-work beats talent.', 'I also believe that people who are modest are cool.', 'I like Spider-man. (since 2004)', 'I\'m a huge fan of Tom Cruise.', 'Even numbers rock. (please pay attention)', 'Most importantly, I love simplicity.', 'Blaah.. blaaah... blaaaaaah......', 'Now scroll to play my movie!'];
 
-var header_main = document.querySelector('.page-0');
+var header = document.querySelector('header');
 
-var headerTitle = document.querySelector('.heading');
+var page_0 = document.querySelector('.page-0');
 
 var profilePic = document.querySelector('#profile-pic');
 
-var personal_description = document.querySelector('.sub-heading');
+var header_profilePic = document.querySelector('#header-profile-pic');
 
-var main_section = document.querySelector('main');
-
-var header_rect = header_main.getBoundingClientRect();
+var page_0_rect = page_0.getBoundingClientRect();
 
 var initial_rotation_count = 0;
 
@@ -55,13 +53,19 @@ window.onload = function() {
 var rotation_count = 0;
 
 window.addEventListener('scroll', function() {
-    if (header_rect.top >= 0) {
+    if (page_0_rect.top >= 0) {
         rotation_count = 0;
-    } else if (header_rect.top <= header_main.getBoundingClientRect().top) {
+    } else if (page_0_rect.top <= page_0.getBoundingClientRect().top) {
         rotation_count -= 5;
     } else {
         rotation_count += 5;
     }
-    header_rect = header_main.getBoundingClientRect();
+    page_0_rect = page_0.getBoundingClientRect();
     profilePic.style['transform'] = 'rotate('+rotation_count+'deg)';
+    header_profilePic.style['transform'] = 'rotate('+rotation_count+'deg)';
+    if (page_0_rect.bottom <= -50) {
+        header.style.display = 'grid';
+    } else {
+        header.style.display = 'none';
+    }
 });
