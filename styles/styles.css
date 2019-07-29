@@ -26,10 +26,48 @@ body {
     word-spacing: 0.5em;
 }
 
+.record-player {
+    display: grid;
+    align-items: center;
+    justify-content: center;
+}
+
+.header-record-player {
+    display: grid;
+    align-items: center;
+    justify-content: center;
+}
+
 #profile-pic {
     height: var(--profile-pic-dimension);
     width: var(--profile-pic-dimension);
     border-radius: 50%;
+}
+
+#disk-reader {
+    width: 0;
+    height: 0;
+    position: relative; 
+    margin-top: -180px;
+    margin-left: -20px;
+    border-bottom: 250px solid #fff;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-radius: 20%;
+    transform: rotate(50deg);
+}
+
+#header-disk-reader {
+    width: 0;
+    height: 0;
+    position: relative; 
+    margin-top: -60px;
+    margin-left: -10px;
+    border-bottom: 50px solid #fff;
+    border-left: 2px solid transparent;
+    border-right: 2px solid transparent;
+    border-radius: 20%;
+    transform: rotate(70deg);
 }
 
 .play-movie {
@@ -42,22 +80,19 @@ header {
     width: 100%;
     background-color: #444;
     display: none;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 4fr 1fr;
     align-items: center;
     color: #fff;
 }
 
 .header-title {
-    margin-left: 2em;
-    justify-self: left;
+    justify-self: center;
 }
 
 #header-profile-pic {
     height: var(--header-profile-pic-dimension);
     width: var(--header-profile-pic-dimension);
     border-radius: 50%;
-    margin-right: 2em;
-    justify-self: right;
 }
 
 main {
@@ -74,26 +109,50 @@ main {
     text-align: center;
 }
 
-@media only screen and (max-width: 1100px) {
+@media only screen and (max-width: 400px) {
     
     :root {
-        --profile-pic-dimension: 18em;
-        --header-profile-pic-dimension: 4em;
+        --profile-pic-dimension: 16em;
+        --header-profile-pic-dimension: 3em;
+    }
+    
+    #header-disk-reader {
+        margin-left: 10px;
+    }    
+    
+    .header-title {
+        margin-left: 2em;
+    }
+    
+    #disk-reader {
+        border-bottom: 200px solid #fff;
+        margin-left: 50px;
     }
     
     .page-0 {
-        width: 100%;
-        min-height: 100vh;
         display: block;
-        text-align: center;
     }
     
-    #header-profile-pic {
-        height: var(--header-profile-pic-dimension);
-        width: var(--header-profile-pic-dimension);
-        border-radius: 50%;
-        margin-right: 2em;
-        justify-self: right;
+}
+
+@media only screen and (min-width: 400px) and (max-width: 1100px) {
+    
+    :root {
+        --profile-pic-dimension: 19em;
+        --header-profile-pic-dimension: 4em;
+    }
+    
+    .header-title {
+        margin-left: 2em;
+    }
+    
+    .page-0 {
+        display: block;
+    }
+    
+    #disk-reader {
+        border-bottom: 250px solid #fff;
+        margin-left: 50px;
     }
 }
 
