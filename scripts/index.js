@@ -61,12 +61,12 @@ window.addEventListener('scroll', function() {
     }
     page_0_rect = page_0.getBoundingClientRect();
     profilePic.style['transform'] = 'rotate('+rotation_count+'deg)';
-//    header_profilePic.style['transform'] = 'rotate('+rotation_count+'deg)';
-//    if (page_0_rect.bottom <= -50) {
-//        header.style.display = 'grid';
-//    } else {
-//        header.style.display = 'none';
-//    }
+    header_profilePic.style['transform'] = 'rotate('+rotation_count+'deg)';
+    if (page_0_rect.bottom <= 50) {
+        header.style['display'] = 'grid';
+    } else {
+        header.style['display'] = 'none';
+    }
 });
 
 let skill_icon_rotation = undefined;
