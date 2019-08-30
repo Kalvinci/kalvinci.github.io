@@ -63,9 +63,9 @@ window.addEventListener('scroll', function() {
     profilePic.style['transform'] = 'rotate('+rotation_count+'deg)';
     header_profilePic.style['transform'] = 'rotate('+rotation_count+'deg)';
     if (page_0_rect.bottom <= 50) {
-        header.style['display'] = 'grid';
+        header.style['visibility'] = 'visible';
     } else {
-        header.style['display'] = 'none';
+        header.style['visibility'] = 'hidden';
     }
 });
 
@@ -75,7 +75,7 @@ let skill_rotation_count = 0;
 skill_icon_list.forEach(function(element) {
     element.addEventListener('mouseover', function() {
         skill_icon_rotation = setInterval(function() {
-            skill_rotation_count += 20;
+            skill_rotation_count += 15;
             element.children[0].style['transform'] = 'rotateY('+skill_rotation_count+'deg)';
         }, 40);
     });

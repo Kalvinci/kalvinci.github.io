@@ -3,6 +3,7 @@
     --profile-pic-dimension: 20em;
     --header-profile-pic-dimension: 4em;
     --skills-icon: 5.8em;
+    overflow-x: hidden;
 }
 
 body {
@@ -76,11 +77,12 @@ body {
 }
 
 header {
-    position: sticky;
+    position: fixed;
     top: 0;
     min-width: 100%;
     background-color: #444;
-    display: none;
+    visibility: hidden;
+    display: grid;
     grid-template-columns: 4fr 1fr;
     align-items: center;
     color: #fff;
@@ -126,7 +128,6 @@ main {
     
     :root {
         --profile-pic-dimension: 16em;
-        --header-profile-pic-dimension: 3em;
     }
     
     #header-disk-reader {
@@ -150,11 +151,6 @@ main {
 
 @media only screen and (min-width: 400px) and (max-width: 1100px) {
     
-    :root {
-        --profile-pic-dimension: 19em;
-        --header-profile-pic-dimension: 4em;
-    }
-    
     .header-title {
         margin-left: 2em;
     }
@@ -173,7 +169,7 @@ main {
     
     :root {
         --profile-pic-dimension: 25em;
-        --header-profile-pic-dimension: 8em;
+        --header-profile-pic-dimension: 5em;
     }
     
     .header-title {
@@ -210,6 +206,7 @@ main {
 #skill-icon {
     width: var(--skills-icon);
     height: var(--skills-icon);
+    transition: transform 0.1s linear;
 }
 
 .skill-set > div > p {
