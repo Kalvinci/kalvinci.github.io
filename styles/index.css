@@ -8,11 +8,6 @@
 
 body {
     margin: 0;
-    background-color: rgb(1,1,1);
-}
-
-.white-color {
-    color: #fff;
 }
 
 .space-mono-font {
@@ -28,66 +23,70 @@ body {
     word-spacing: 0.5em;
 }
 
-.record-player {
-    display: grid;
-    align-items: center;
-    justify-content: center;
-}
-
-.header-record-player {
-    display: grid;
-    align-items: center;
-    justify-content: center;
-}
-
 #profile-pic {
-    height: var(--profile-pic-dimension);
-    width: var(--profile-pic-dimension);
-    border-radius: 50%;
+    max-height: var(--profile-pic-dimension);
+    max-width: var(--profile-pic-dimension);
+    box-shadow: 10px 15px 20px 10px silver;
+    animation-name: float;
+    animation-duration: 4s;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
 }
 
-#disk-reader {
-    width: 0;
-    height: 0;
-    position: relative; 
-    margin-top: -180px;
-    margin-left: -20px;
-    border-bottom: 250px solid #fff;
-    border-left: 10px solid transparent;
-    border-right: 10px solid transparent;
-    border-radius: 20%;
-    transform: rotate(50deg);
+@keyframes float {
+    0% {
+        transform: translate(0, -5px);
+    }
+    
+    50% {
+        transform: translate(0, 10px);
+        box-shadow: 10px 30px 30px 10px silver;
+    }
+
+    100% {
+        transform: translate(0, -5px);
+        box-shadow: 10px 15px 20px 10px silver;
+    }
 }
 
-#header-disk-reader {
-    width: 0;
-    height: 0;
-    position: relative; 
-    margin-top: -60px;
-    margin-left: -10px;
-    border-bottom: 50px solid #fff;
-    border-left: 2px solid transparent;
-    border-right: 2px solid transparent;
-    border-radius: 20%;
-    transform: rotate(70deg);
+.type-out-text:nth-last-child(2) {
+    font-size: 2em;
 }
 
-.play-movie {
-    font-size: 3em;
+.type-out-text:nth-last-child(3) {
+    font-size: 1.5em;
 }
 
 header {
     position: fixed;
-    top: 0;
-    min-width: 100%;
-    background-color: #444;
-    visibility: hidden;
-    display: grid;
-    grid-template-columns: 4fr 1fr;
-    align-items: center;
-    color: #fff;
+    top: 5%;
+    width: 100%;
+    opacity: 1;
     z-index: 1000;
 }
+
+header > ul {
+    display: flex;
+    flex-direction: row;
+    justify-content: right;
+    list-style-type: none;
+    float: right;
+}
+
+header > ul > li {
+    padding: 0.5em;
+}
+
+header > ul > li > a {
+    display: block;
+    text-decoration: none;
+    color: #000;
+    padding: 1em;
+}
+
+header > ul > li > a:hover {
+    background-color: silver;
+} 
 
 .header-title {
     justify-self: center;
@@ -100,92 +99,98 @@ header {
 }
 
 main {
-    margin: 8px;    
+    margin: 1em;    
 }
 
 .page-heading {
     font-size: 1.6em;
-    padding: 1em;
+    padding: 0.5em;
+    text-align: center;
+    text-decoration: underline;
 }
 
 
-.page-0 {
-    width: 100%;
+.page-0, .page-1, .page-2, .page-3, .page-4 {
+    width: 80%;
     min-height: 100vh;
-    text-align: center;
+    margin: 0 auto;
+    border-bottom: 1px solid #000;
 }
 
 .about-me {
     min-height: 100vh;
     display: grid;
     grid-template-columns: 1.5fr 1fr;
+    grid-gap: 20px;
     justify-items: center;
     align-items: center;
     text-align: center;
 }
 
-@media only screen and (max-width: 400px) {
+@media only screen and (max-width: 1000px) {
     
     :root {
         --profile-pic-dimension: 16em;
     }
-    
-    #header-disk-reader {
-        margin-left: 10px;
-    }    
-    
-    .header-title {
-        margin-left: 2em;
-    }
-    
-    #disk-reader {
-        border-bottom: 200px solid #fff;
-        margin-left: 50px;
-    }
-    
-    .about-me {
-        display: block;
-    }
-    
-}
 
-@media only screen and (min-width: 400px) and (max-width: 1100px) {
-    
-    .header-title {
-        margin-left: 2em;
-    }
-    
     .about-me {
         display: block;
     }
-    
-    #disk-reader {
-        border-bottom: 250px solid #fff;
-        margin-left: 50px;
+
+    .page-0, .page-1, .page-2, .page-3, .page-4 {
+        width: 100%;
     }
+
+    .page-0 {
+        padding-bottom: 30px;
+    }
+
 }
 
 @media only screen and (min-width: 1400px) {
     
     :root {
         --profile-pic-dimension: 25em;
-        --header-profile-pic-dimension: 5em;
     }
     
-    .header-title {
-        margin-left: 4em;
-    }
-    
-    #disk-reader {
-        border-bottom: 300px solid #fff;
-        margin-left: 80px;
-    }
 }
 
-.page-1 {
-    width: 100%;
-    min-height: 100vh;
-    text-align: center;
+.page-content {
+    margin: 1em;
+    display: flex;
+    flex-direction: column;
+}
+
+.sub-section {
+    margin: 2em 0;
+}
+
+.sub-section:first-child {
+    margin-top: 0;
+}
+
+.sub-section > div {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    width: inherit;
+}
+
+.sub-section > div * {
+    margin: 0;
+}
+
+.sub-section > ul {
+    line-height: 2em;
+}
+
+.description {
+    margin-top: 0.2em;
+}
+
+.duration {
+    justify-self: right;
 }
 
 .skill-set {
@@ -200,7 +205,7 @@ main {
 .skill-set > div {
     width: var(--skills-icon);
     min-height: var(--skills-icon);
-    background-color: #000;
+    text-align: center;
 }
 
 #skill-icon {
@@ -211,10 +216,4 @@ main {
 
 .skill-set > div > p {
     word-wrap: normal;
-}
-
-.page-2 {
-    width: 100%;
-    min-height: 100vh;
-    text-align: center;
 }
