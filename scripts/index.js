@@ -4,12 +4,6 @@ const about_me = ['Hi! I am', 'Kalyanasundharam Kathiresan&nbsp;&lt;kalvinci<i>&
 
 const header = document.querySelector('header');
 
-const page_0 = document.querySelector('.page-0');
-
-const profilePic = document.querySelector('#profile-pic');
-
-const header_profilePic = document.querySelector('#header-profile-pic');
-
 const type_out_node_list = document.getElementsByClassName('type-out-text');
 
 const skill_icon_list = document.querySelectorAll('.skill-set > div');
