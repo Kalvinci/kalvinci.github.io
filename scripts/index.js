@@ -14,10 +14,17 @@ const type_out_node_list = document.getElementsByClassName('type-out-text');
 
 const skill_icon_list = document.querySelectorAll('.skill-set > div');
 
+const sliding_menu = document.getElementById('menu');
+
+const menu_icon = document.getElementById('menu-icon');
+
+let menu_visible = false;
+
 window.onload = function() {
     
     let i=0, y=0, k=0;
-    
+
+    header.style.transform = 'translateX('+sliding_menu.offsetWidth+'px)';
     let type_out_sentence = setInterval(function() {
         type_out_node_list[i].innerHTML = about_me[i];
         i++;
@@ -54,4 +61,16 @@ skill_icon_list.forEach(function(element) {
         element.children[0].style['transform'] = 'rotateY('+skill_rotation_count+'deg)';
         clearInterval(skill_icon_rotation);
     });
+});
+
+menu_icon.addEventListener('click', function() {
+    if (!menu_visible) {
+        header.style.transform = 'translateX(0px)';
+        menu_icon.style.transform = 'rotate(180deg)';
+        menu_visible = true;
+    } else {
+        header.style.transform = 'translateX('+sliding_menu.offsetWidth+'px)';
+        menu_icon.style.transform = 'rotate(0deg)';
+        menu_visible = false;
+    }
 });

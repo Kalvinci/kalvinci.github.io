@@ -59,22 +59,30 @@ body {
 
 header {
     position: fixed;
-    top: 5%;
+    height: 100%;
     width: 100%;
-    opacity: 1;
+    display: grid;
+    grid-template-columns: max-content max-content;
+    justify-content: right;
+    align-content: center;
+    align-items: center;
+    transition: 1s ease-out;
     z-index: 1000;
 }
 
-header > ul {
-    display: flex;
-    flex-direction: row;
-    justify-content: right;
-    list-style-type: none;
-    float: right;
+#menu-icon {
+    margin-right: -5px;
+    z-index: 1;
+    transition: 1s ease-out;
 }
 
-header > ul > li {
-    padding: 0.5em;
+header > ul {
+    background-color: #fff;
+    list-style-type: none;
+    float: right;
+    padding-left: 0;
+    border-style: solid;
+    border-width: 1px 0px 1px 1px;
 }
 
 header > ul > li > a {
@@ -87,6 +95,11 @@ header > ul > li > a {
 header > ul > li > a:hover {
     background-color: silver;
 } 
+
+header > img {
+    width: 2em;
+    height: 2em;
+}
 
 .header-title {
     justify-self: center;
