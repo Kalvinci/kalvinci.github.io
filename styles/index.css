@@ -26,10 +26,11 @@ body {
 }
 
 .pic-card {
-    padding-top: 1em;
-    padding-bottom: 2em;
-    padding-left: 1em;
-    padding-right: 1em;
+    display: inline-block;
+    padding-top: 5%;
+    padding-bottom: 8%;
+    padding-left: 5%;
+    padding-right: 5%;
     box-shadow: 10px 30px 30px 10px silver;
     animation-name: float;
     animation-duration: 4s;
