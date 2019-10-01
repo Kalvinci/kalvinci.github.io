@@ -68,11 +68,11 @@ body {
 
 header {
     position: fixed;
-    height: 100%;
-    width: 100%;
+    top: 0;
+    bottom: 0;
+    right: 0;
     display: grid;
     grid-template-columns: max-content max-content;
-    justify-content: right;
     align-content: center;
     align-items: center;
     transition: 0.5s ease-out;
@@ -88,10 +88,8 @@ header {
 header > ul {
     background-color: #fff;
     list-style-type: none;
-    float: right;
     padding-left: 0;
-    border-style: solid;
-    border-width: 1px 0px 1px 1px;
+    box-shadow: -1px 0px 2px silver;
 }
 
 header > ul > li > a {
@@ -127,7 +125,6 @@ main {
 
 
 .page-0, .page-1, .page-2, .page-3, .page-4 {
-    /* width: 80%; */
     min-height: 100vh;
     margin: 0 auto;
     border-bottom: 1px solid #000;
@@ -153,10 +150,6 @@ main {
     .about-me {
         display: block;
     }
-
-    /* .page-0, .page-1, .page-2, .page-3, .page-4 {
-        width: 100%;
-    } */
 
     .page-0 {
         padding-bottom: 30px;
@@ -246,6 +239,6 @@ footer {
     padding: 2em 0;
 }
 
-footer > img {
+footer > a > img {
     width: 3em;
 }
