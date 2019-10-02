@@ -220,7 +220,7 @@ main {
     text-align: center;
 }
 
-#skill-icon {
+.skill-icon {
     width: var(--skills-icon);
     height: var(--skills-icon);
     transition: transform 0.1s linear;
