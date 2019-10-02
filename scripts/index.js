@@ -17,7 +17,7 @@ let menu_visible = false;
 window.onload = function() {
     
     let i=0, y=0, k=0;
-
+    menu_icon.style.transform = 'rotate(0deg)';
     header.style.transform = 'translateX('+sliding_menu.offsetWidth+'px)';
     let type_out_sentence = setInterval(function() {
         type_out_node_list[i].innerHTML = about_me[i];
