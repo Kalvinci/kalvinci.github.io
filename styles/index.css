@@ -22,7 +22,6 @@ body {
 
 .sub-heading {
     word-wrap: break-word;
-    word-spacing: 0.5em;
 }
 
 .pic-card {
@@ -204,6 +203,15 @@ main {
 
 .duration {
     justify-self: right;
+}
+
+.location {
+    font-weight: normal;
+    font-size: 16px;
+}
+
+.newTab {
+    width: 24px;
 }
 
 .skill-set {

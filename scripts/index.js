@@ -1,6 +1,6 @@
 'use strict';
 
-const about_me = ['Hi! I am', 'Kalyanasundharam Kathiresan&nbsp;&lt;kalvinci<i>&sol;</i>&gt;', 'A Computer Science engineer, a programmer, and a maverick.', 'I believe hard-work beats talent.', 'I also believe that people who are modest are cool.', 'I like Spider-man (since 2004).', 'I\'m a huge fan of Tom Cruise.', 'Even numbers rock (please pay attention).', 'Most importantly, I love simplicity.', 'blaah.. blaaah... blaaaaaah......', 'Scroll to read me!'];
+const about_me = ['Hi!👋 I am', 'Kalyanasundharam Kathiresan&nbsp;&lt;kalvinci<i>&sol;</i>&gt;', 'A Computer Science major and a Software Engineer 👨‍💻', 'I believe hard-work beats talent 💪🔥', 'I also believe that people who are modest are cool 😎', 'I like Spider-man 🕷 (since 2002)', 'Even numbers rock 🤘', 'Most importantly, I love simplicity', 'blaah.. blaaah... blaaaaaah......', 'Scroll to read me!'];
 
 const header = document.querySelector('header');
 
