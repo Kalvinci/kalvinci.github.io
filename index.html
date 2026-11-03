@@ -1,499 +1,857 @@
-<!DOCTYPE HTML>
-<html lang="en" xml:lang="en">
-
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <title>
-        Kalvinci's portfolio
-    </title>
-    <meta charset="utf-8">
-    <meta name="description" content="portfolio website">
-    <meta name="author" content="Kalvinci">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="keywords" content="Kalyanasundharam, Kalyanasundharam Kathiresan, Kalvinci, Kalyankks">
-    <link rel="icon" href="images/titleBarIcon.png" type="image/png">
-    <!-- Stylesheets -->
-    <link rel="stylesheet" href="styles/index.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Space+Mono">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kalyanasundharam Kathiresan</title>
+<meta name="description" content="Kalyanasundharam Kathiresan: backend engineer building Java microservices, performance improvements, and AI engineering tools.">
+<meta name="author" content="Kalyanasundharam Kathiresan">
+<meta name="keywords" content="Kalyanasundharam Kathiresan, Kalvinci, backend engineer, Java, Quarkus, Spring Boot, AWS, microservices">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Martian+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  /* Layout idea: an engineer's service dashboard. A status header, a latency panel as the hero exhibit,
+     then experience as a release log, ending with a plain contact block. Single dark theme by choice. */
+  :root {
+    --bg: #0b0f15;
+    --panel: #111823;
+    --line: #1e2938;
+    --text: #dfe6ee;
+    --muted: #8a97a8;
+    --accent: #f0a23b;   /* amber: "before" / signal */
+    --accent-2: #5ec9d5; /* cyan: "after" / healthy */
+    --font-body: "Geist", "Segoe UI", system-ui, sans-serif;
+    --font-mono: "Martian Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+    color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: var(--bg); color: var(--text); font-family: var(--font-body);
+         font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+  a { color: var(--text); text-decoration-color: var(--line); text-underline-offset: 3px; }
+  a:hover { text-decoration-color: var(--accent); }
+  a:focus-visible, button:focus-visible { outline: 2px solid var(--accent-2); outline-offset: 3px; border-radius: 4px; }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+  .mono { font-family: var(--font-mono); }
+  .label { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+  h1, h2, h3 { text-wrap: balance; margin: 0; }
+
+  /* Nav */
+  nav { position: sticky; top: 0; z-index: 10; background: rgba(11,15,21,0.86); backdrop-filter: blur(10px);
+        border-bottom: 1px solid var(--line); }
+  nav .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; height: 56px; }
+  .brand { font-family: var(--font-mono); font-size: 13px; font-weight: 500; text-decoration: none; }
+  .brand span { color: var(--accent); }
+  .nav-links { display: flex; gap: 22px; }
+  .nav-links a { font-family: var(--font-mono); font-size: 12px; color: var(--muted); text-decoration: none; }
+  .nav-links a:hover { color: var(--text); }
+
+  /* Hero */
+  .hero { padding: 64px 0 80px; display: grid; grid-template-columns: 1.05fr 1fr; gap: 48px; align-items: start; }
+  .status { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 12px; color: var(--muted);
+            border: 1px solid var(--line); border-radius: 999px; padding: 5px 12px; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent-2); box-shadow: 0 0 0 3px rgba(94,201,213,0.15); }
+  .hero h1 { font-size: clamp(36px, 5vw, 54px); line-height: 1.05; font-weight: 700; letter-spacing: -0.02em; margin: 20px 0 16px; }
+  .hero h1 .alt { color: var(--muted); font-weight: 500; }
+  .lede { font-size: 18px; color: #c3ccd7; max-width: 34em; margin: 0 0 24px; }
+  .links { display: flex; flex-wrap: wrap; gap: 10px; }
+  .btn { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 12px; text-decoration: none;
+         border: 1px solid var(--line); border-radius: 6px; padding: 9px 14px; background: var(--panel); }
+  .btn:hover { border-color: var(--accent); }
+  .btn.primary { background: var(--accent); color: #1a1205; border-color: var(--accent); font-weight: 600; }
+  .btn svg { width: 14px; height: 14px; }
+
+  /* Latency panel */
+  .panel { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 22px; }
+  .panel-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-bottom: 18px; }
+  .panel-head h2 { font-size: 15px; font-weight: 600; }
+  .legend { display: flex; gap: 14px; }
+  .legend span { display: inline-flex; align-items: center; gap: 6px; }
+  .sw { width: 10px; height: 10px; border-radius: 2px; display: inline-block; }
+  .bars { display: grid; gap: 16px; }
+  .bar-row { display: grid; gap: 6px; }
+  .bar-top { display: flex; justify-content: space-between; font-size: 14px; }
+  .bar-top .delta { font-family: var(--font-mono); font-size: 12px; color: var(--accent-2); font-variant-numeric: tabular-nums; }
+  .track { position: relative; height: 22px; border-radius: 4px; background:
+           repeating-linear-gradient(to right, transparent 0, transparent calc(25% - 1px), var(--line) calc(25% - 1px), var(--line) 25%); }
+  .before, .after, .range { position: absolute; left: 0; top: 0; height: 100%; border-radius: 4px; }
+  .before { background: rgba(240,162,59,0.22); border: 1px solid rgba(240,162,59,0.6); }
+  .after { background: var(--accent-2); transition: width 1.1s cubic-bezier(.2,.7,.2,1); }
+  .range { background: rgba(94,201,213,0.35); }
+  .vals { display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 11px; color: var(--muted); font-variant-numeric: tabular-nums; }
+  .axis { display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 10px; color: var(--muted); margin-top: 10px; }
+  .panel-note { font-size: 13px; color: var(--muted); margin: 16px 0 0; }
+
+
+  /* Impact log panel */
+  .impact { display: grid; gap: 18px; }
+  .impact .panel-head { margin-bottom: 0; }
+  .grp { display: grid; }
+  .grp-head { display: flex; justify-content: space-between; align-items: baseline; font-size: 13px; font-weight: 600;
+              padding-bottom: 6px; border-bottom: 1px solid var(--line); }
+  .grp-head span:first-child { color: var(--accent); font-family: var(--font-mono); font-size: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em; }
+  .row { display: grid; grid-template-columns: 76px 1fr; gap: 14px; align-items: baseline; padding: 8px 0; border-bottom: 1px dashed var(--line); }
+  .grp .row:last-child { border-bottom: 0; }
+  .row .n { font-family: var(--font-mono); font-size: 15px; font-weight: 600; color: var(--accent-2); font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .row .d { font-size: 14px; color: #c3ccd7; line-height: 1.45; }
+  /* Metrics strip */
+  .metrics { display: grid; grid-template-columns: repeat(4, 1fr); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; margin: 8px 0 72px; }
+  .metric { padding: 18px 20px; border-right: 1px solid var(--line); }
+  .metric:last-child { border-right: 0; }
+  .metric .num { font-family: var(--font-mono); font-size: 22px; font-weight: 600; color: var(--text); font-variant-numeric: tabular-nums; }
+  .metric .num em { font-style: normal; color: var(--accent); }
+  .metric p { margin: 4px 0 0; font-size: 13px; color: var(--muted); }
+
+  /* Sections */
+  section { padding: 0 0 72px; }
+  .sec-head { display: flex; align-items: baseline; gap: 14px; margin-bottom: 24px; border-bottom: 1px solid var(--line); padding-bottom: 12px; }
+  .sec-head h2 { font-size: 26px; font-weight: 600; letter-spacing: -0.01em; }
+
+  /* Work cards */
+  .work { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 20px; display: flex; flex-direction: column; gap: 10px; }
+  .card h3 { font-size: 17px; font-weight: 600; }
+  .card p { margin: 0; color: #c3ccd7; font-size: 15px; }
+  .card .result { font-family: var(--font-mono); font-size: 12px; color: var(--accent-2); }
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: auto; padding-top: 4px; }
+  .tag { font-family: var(--font-mono); font-size: 11px; color: var(--muted); border: 1px solid var(--line); border-radius: 4px; padding: 2px 7px; }
+
+  /* Experience log */
+  .log { display: grid; gap: 0; }
+  .entry { display: grid; grid-template-columns: 170px 1fr; gap: 28px; padding: 24px 0; border-bottom: 1px solid var(--line); }
+  .entry:first-child { padding-top: 4px; }
+  .entry .when { font-family: var(--font-mono); font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; }
+  .entry .when .now { color: var(--accent-2); }
+  .entry h3 { font-size: 19px; font-weight: 600; }
+  .entry .role { color: var(--muted); font-size: 15px; margin: 2px 0 12px; }
+  .entry ul { margin: 0; padding-left: 18px; display: grid; gap: 6px; color: #c3ccd7; font-size: 15px; max-width: 46em; }
+  .entry li::marker { color: var(--accent); }
+  .entry b { color: var(--text); font-weight: 600; }
+
+  /* Skills */
+  .skills { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .skill-group h3 { font-family: var(--font-mono); font-size: 12px; font-weight: 500; color: var(--accent); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.05em; }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chip { font-size: 14px; border: 1px solid var(--line); background: var(--panel); border-radius: 5px; padding: 3px 9px; }
+
+  /* Earlier projects + education */
+  .two { display: grid; grid-template-columns: 1.3fr 1fr; gap: 40px; }
+  .plist { list-style: none; margin: 0; padding: 0; display: grid; }
+  .plist li { padding: 14px 0; border-bottom: 1px solid var(--line); }
+  .plist li:first-child { padding-top: 0; }
+  .plist a { font-weight: 600; text-decoration: none; }
+  .plist a:hover { color: var(--accent); }
+  .plist p { margin: 3px 0 0; font-size: 14px; color: var(--muted); }
+  .edu { display: grid; gap: 18px; }
+  .edu h3 { font-size: 16px; font-weight: 600; }
+  .edu p { margin: 2px 0 0; font-size: 14px; color: var(--muted); }
+
+  /* Contact */
+  .contact { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 36px; display: grid; grid-template-columns: 1.2fr 1fr; gap: 32px; align-items: center; }
+  .contact h2 { font-size: 28px; font-weight: 600; letter-spacing: -0.01em; margin-bottom: 8px; }
+  .contact p { margin: 0; color: #c3ccd7; }
+  .contact-list { display: grid; gap: 10px; }
+  .contact-list a { display: flex; justify-content: space-between; gap: 12px; font-family: var(--font-mono); font-size: 13px; text-decoration: none;
+                    border: 1px solid var(--line); border-radius: 6px; padding: 11px 14px; background: var(--bg); }
+  .contact-list a:hover { border-color: var(--accent); }
+  .contact-list a { flex-wrap: wrap; overflow-wrap: anywhere; min-width: 0; }
+  .contact, .contact > div { min-width: 0; }
+  .contact-list .k { color: var(--muted); }
+  footer { padding: 32px 0 48px; color: var(--muted); font-family: var(--font-mono); font-size: 11px; }
+
+
+
+  /* Under the hood */
+  .hood-lede { margin: -8px 0 22px; color: var(--muted); }
+  .hood { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .ill { margin: 0; background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 18px 18px 16px; display: grid; gap: 12px; min-width: 0; }
+  .ill figcaption { display: grid; gap: 4px; }
+  .ill h3 { font-size: 17px; font-weight: 600; }
+  .ill canvas { width: 100%; height: 230px; display: block; background: var(--bg); border: 1px solid var(--line); border-radius: 8px; }
+  .ill p { margin: 0; font-size: 14px; color: #c3ccd7; }
+  @media (max-width: 860px) { .hood { grid-template-columns: 1fr; } }
+
+
+  /* Avatar */
+  .id-row { display: flex; align-items: center; gap: 18px; }
+  .id-meta { display: grid; gap: 8px; justify-items: start; }
+  .avatar { position: relative; width: 92px; height: 92px; flex: none; border-radius: 22px; padding: 3px; overflow: hidden; isolation: isolate; }
+  .avatar::before { content: ""; position: absolute; inset: -40%; z-index: -1;
+                    background: conic-gradient(from 0deg, var(--accent), var(--accent-2), transparent 55%, var(--accent)); animation: spin 6s linear infinite; }
+  .avatar img { display: block; width: 100%; height: 100%; object-fit: cover; border-radius: 19px; border: 2px solid var(--bg); background: var(--panel); }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  @media (prefers-reduced-motion: reduce) { .avatar::before { animation: none; } }
+  @media (max-width: 420px) { .avatar { width: 76px; height: 76px; border-radius: 18px; } .avatar img { border-radius: 15px; } }
+
+  /* ---- Motion ---- */
+  #mesh { position: absolute; top: 0; left: 0; width: 100%; height: 760px; z-index: 0; pointer-events: none;
+          -webkit-mask-image: linear-gradient(to bottom, #000 55%, transparent); mask-image: linear-gradient(to bottom, #000 55%, transparent); }
+  main, nav, footer { position: relative; z-index: 1; }
+  nav { z-index: 10; }
+  .progress { position: absolute; left: 0; bottom: -1px; height: 2px; width: 100%; background: linear-gradient(90deg, var(--accent), var(--accent-2));
+              transform-origin: 0 50%; transform: scaleX(0); }
+  .dot { position: relative; }
+  .dot::after { content: ""; position: absolute; inset: 0; border-radius: 50%; background: var(--accent-2); animation: ping 2s cubic-bezier(0,0,.2,1) infinite; }
+  @keyframes ping { 0% { transform: scale(1); opacity: .7; } 80%, 100% { transform: scale(2.6); opacity: 0; } }
+  .cursor { display: inline-block; width: 0.08em; height: 0.9em; margin-left: 0.08em; background: var(--accent); vertical-align: -0.08em; animation: blink 1.1s steps(1) infinite; }
+  @keyframes blink { 50% { opacity: 0; } }
+  .impact .row, .impact .grp-head { animation: rise .6s cubic-bezier(.2,.7,.2,1) both; animation-delay: calc(var(--i, 0) * 70ms + 200ms); }
+  @keyframes rise { from { transform: translateY(8px); opacity: .25; } to { transform: none; opacity: 1; } }
+  .impact { position: relative; overflow: hidden; }
+  .impact::before { content: ""; position: absolute; left: 0; right: 0; top: -40%; height: 40%; pointer-events: none;
+                    background: linear-gradient(to bottom, transparent, rgba(94,201,213,0.06), transparent); animation: scan 6s linear infinite 1.5s; }
+  @keyframes scan { to { top: 140%; } }
+  .card { position: relative; transition: transform .25s ease, border-color .25s ease; }
+  .card::before { content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; opacity: 0; transition: opacity .3s;
+                  background: radial-gradient(360px circle at var(--mx, 50%) var(--my, 50%), rgba(94,201,213,0.10), transparent 45%); }
+  .card:hover { transform: translateY(-3px); border-color: #2c3b4f; }
+  .card:hover::before { opacity: 1; }
+  .reveal { transition: transform .7s cubic-bezier(.2,.7,.2,1); }
+  .reveal.pending { transform: translateY(18px); }
+  .chip { transition: border-color .2s, color .2s, transform .2s; }
+  .chip:hover { border-color: var(--accent-2); transform: translateY(-1px); }
+  .entry h3 { transition: color .2s; }
+  .entry:hover h3 { color: var(--accent); }
+  @media (prefers-reduced-motion: reduce) {
+    .dot::after, .cursor, .impact::before { animation: none; }
+    .impact .row, .impact .grp-head { animation: none; }
+    .reveal.pending { transform: none; }
+    .card:hover { transform: none; }
+  }
+
+  @media (max-width: 860px) {
+    .hero, .two, .contact { grid-template-columns: 1fr; }
+    .hero { padding-top: 40px; gap: 32px; }
+    .metrics { grid-template-columns: repeat(2, 1fr); }
+    .metric:nth-child(2) { border-right: 0; }
+    .metric:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
+    .work, .skills { grid-template-columns: 1fr; }
+    .entry { grid-template-columns: 1fr; gap: 6px; }
+    .nav-links { display: none; }
+    .contact { padding: 24px; }
+  }
+  @media (max-width: 420px) {
+    .wrap { padding: 0 16px; }
+    .metrics { grid-template-columns: 1fr; }
+    .metric { border-right: 0 !important; border-bottom: 1px solid var(--line); }
+    .metric:last-child { border-bottom: 0; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .after { transition: none; }
+  }
+</style>
 </head>
-
 <body>
-    <header class="space-mono-font">
-        <img id="menu-icon" src="images/left-icon.jpg" alt="menu-icon">
-        <ul id="menu">
-            <li>
-                <a href="#home">
-                    Home
-                </a>
-            </li>
-            <li>
-                <a href="#education">
-                    Education
-                </a>
-            </li>
-            <li>
-                <a href="#experience">
-                    Experience
-                </a>
-            </li>
-            <li>
-                <a href="#projects">
-                    Projects
-                </a>
-            </li>
-            <li>
-                <a href="#skills">
-                    Skills
-                </a>
-            </li>
-            <li>
-                <a href="#social-media">
-                    Social Media
-                </a>
-            </li>
+<canvas id="mesh" aria-hidden="true"></canvas>
+
+<nav>
+  <div class="wrap">
+    <a class="brand" href="#top">kalvinci<span>_</span></a>
+    <div class="nav-links">
+      <a href="#work">Work</a>
+      <a href="#under-the-hood">How it works</a>
+      <a href="#experience">Experience</a>
+      <a href="#skills">Skills</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </div>
+  <div class="progress" id="progress"></div>
+</nav>
+
+<main class="wrap" id="top">
+
+  <header class="hero">
+    <div>
+      <div class="id-row">
+        <div class="avatar"><img src="data:image/jpeg;base64,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" alt="Kalyanasundharam Kathiresan" width="84" height="84"></div>
+        <div class="id-meta">
+          <span class="status"><span class="dot"></span>Software Engineer 2 · Apptium</span>
+          <span class="label">Northern Virginia · Java · AWS · AI tooling</span>
+        </div>
+      </div>
+      <h1>Kalyanasundharam Kathiresan<br><span class="alt" id="scramble">Backend engineer.</span><span class="cursor" aria-hidden="true"></span></h1>
+      <p class="lede">I build and modernize Java microservices, make slow APIs fast, and write the AI tools that help engineering teams move quicker. 6.5+ years across commerce, media, and enterprise SaaS.</p>
+      <div class="links">
+        <a class="btn primary" href="resume.pdf">Resume (PDF)</a>
+        <a class="btn" href="https://www.linkedin.com/in/kalyanasundharamkathiresan">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-1 1.83-2.05 3.77-2.05C20.6 8.65 21 11.2 21 14.5V21h-4v-5.8c0-1.4-.03-3.2-1.95-3.2-1.95 0-2.25 1.52-2.25 3.1V21H9z"/></svg>LinkedIn</a>
+        <a class="btn" href="https://github.com/Kalvinci">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5a11.5 11.5 0 0 0-3.64 22.4c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.52-1.33-1.28-1.69-1.28-1.69-1.05-.71.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.42-2.7 5.4-5.26 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5z"/></svg>GitHub</a>
+      </div>
+    </div>
+
+    <div class="panel impact" aria-label="Career impact">
+      <div class="panel-head">
+        <h2>Impact log</h2>
+        <span class="label">2018 → now</span>
+      </div>
+      <div class="grp">
+        <div class="grp-head"><span>Apptium</span><span class="label">2025 – now</span></div>
+        <div class="row"><span class="n">−67%</span><span class="d">API latency on core cart services, through caching, parallel calls, and removing a middleman service</span></div>
+        <div class="row"><span class="n">20 min</span><span class="d">Typical issue triage, down from 2–3 hours, with AI log analysis I built</span></div>
+        <div class="row"><span class="n">5 teams</span><span class="d">~40 engineers adopted my AI story-grooming agent</span></div>
+      </div>
+      <div class="grp">
+        <div class="grp-head"><span>Brightspot</span><span class="label">2023 – 2024</span></div>
+        <div class="row"><span class="n">10M+</span><span class="d">Articles and media moved in a four-month CMS migration I led</span></div>
+        <div class="row"><span class="n">3</span><span class="d">Enterprise client platforms upgraded without losing their customizations</span></div>
+      </div>
+      <div class="grp">
+        <div class="grp-head"><span>DemandFarm</span><span class="label">2018 – 2021</span></div>
+        <div class="row"><span class="n">4×</span><span class="d">QA, Sales, and Customer Success efficiency from a demo builder tool</span></div>
+        <div class="row"><span class="n">−35%</span><span class="d">Page load times with reusable Lightning Web Components</span></div>
+        <div class="row"><span class="n">30+</span><span class="d">Users on a program management app I built end to end</span></div>
+      </div>
+    </div>
+  </header>
+
+  <section id="work">
+    <div class="sec-head"><span class="label">01</span><h2>Selected work</h2></div>
+    <div class="work">
+      <article class="card">
+        <span class="label">Cart service · Apptium</span>
+        <h3>Cart service migration to Quarkus</h3>
+        <p>Moving the cart service from legacy Spring Boot to a reactive Quarkus service on AWS, while shipping new requirements to both systems and keeping them at feature parity.</p>
+        <div class="tags"><span class="tag">Quarkus</span><span class="tag">Mutiny</span><span class="tag">Redis</span><span class="tag">DocumentDB</span><span class="tag">Kinesis</span><span class="tag">GraphQL</span></div>
+      </article>
+      <article class="card">
+        <span class="label">Cart service · Apptium</span>
+        <h3>Tax calculation, rebuilt in-service</h3>
+        <p>Removed the cart's dependency on a sunsetting middleman service owned by another team, cleared its bottlenecks, and brought the logic into the cart service with direct calls to the third-party tax API.</p>
+        <span class="result">Latency cut 67%</span>
+      </article>
+      <article class="card">
+        <span class="label">Internal tool · Python</span>
+        <h3>Code intelligence platform</h3>
+        <p>Indexes ~160 repos across 3 GitHub orgs and serves search, definitions, references, and call graphs through an API, CLI, browser UI, and an MCP server for Copilot. Used by executives and leads to trace designs and cross-team dependencies.</p>
+        <div class="tags"><span class="tag">tree-sitter</span><span class="tag">Zoekt</span><span class="tag">SQLite</span><span class="tag">MCP</span><span class="tag">Docker</span></div>
+      </article>
+      <article class="card">
+        <span class="label">AI agents</span>
+        <h3>Copilot agents for engineering teams</h3>
+        <p>A story-grooming agent that writes Jira stories from chat, used by 5 teams (~40 engineers), and agent skills that analyze Kibana logs to root-cause bugs and performance regressions.</p>
+        <span class="result">Triage 2–3 hours → ~20 minutes</span>
+      </article>
+      <article class="card">
+        <span class="label">Prototype · Google ADK</span>
+        <h3>Conversational ordering agent</h3>
+        <p>Prototyped and demoed an agent that lets retail and telesales agents place orders by chat. Another team adopted the concept and built it into a dedicated ordering channel.</p>
+        <div class="tags"><span class="tag">Google ADK</span><span class="tag">Python</span><span class="tag">LLM agents</span></div>
+      </article>
+      <article class="card">
+        <span class="label">Brightspot</span>
+        <h3>10M+ article CMS migration</h3>
+        <p>Led a four-month, multi-phase migration for a major news agency, moving articles, press releases, images, audio, and video from 10+ PostgreSQL tables and multiple GCS buckets.</p>
+        <div class="tags"><span class="tag">Java</span><span class="tag">JOOQ</span><span class="tag">PostgreSQL</span><span class="tag">GCS</span></div>
+      </article>
+    </div>
+  </section>
+
+  <section id="under-the-hood">
+    <div class="sec-head"><span class="label">02</span><h2>Under the hood</h2></div>
+    <p class="hood-lede">How some of that work actually runs, one diagram per problem.</p>
+    <div class="hood">
+      <figure class="ill">
+        <figcaption><span class="label">Apptium · tax calculation</span><h3>Cutting out the middleman</h3></figcaption>
+        <canvas data-ill="tax" aria-label="Animated diagram: tax requests used to hop through a middleman service; now the cart calls the tax API directly, cutting latency 67%"></canvas>
+        <p>Tax requests used to hop through another team's sunsetting service. I moved that logic into the cart service, which now calls the tax API directly.</p>
+      </figure>
+      <figure class="ill">
+        <figcaption><span class="label">Apptium · cart APIs</span><h3>Parallel calls and a cache</h3></figcaption>
+        <canvas data-ill="parallel" aria-label="Animated diagram: upstream calls that ran one after another now run in parallel, with one served from Redis cache"></canvas>
+        <p>Upstream calls that ran one after another now run concurrently, and repeat lookups come from Redis. Illustrative timings.</p>
+      </figure>
+      <figure class="ill">
+        <figcaption><span class="label">Brightspot · data model</span><h3>Cascading updates engine</h3></figcaption>
+        <canvas data-ill="cascade" aria-label="Animated diagram: an edit to one node enqueues its dependents, and three worker threads update them in parallel"></canvas>
+        <p>An edit to one record queues every dependent record in the graph. Worker threads drain the queue in parallel, and shared dependents are queued only once.</p>
+      </figure>
+      <figure class="ill">
+        <figcaption><span class="label">Brightspot · news agency</span><h3>10M+ article migration</h3></figcaption>
+        <canvas data-ill="migration" aria-label="Animated diagram: content flows from PostgreSQL tables and GCS buckets into Brightspot over three phases, reaching 10 million articles"></canvas>
+        <p>Four months, three phases: articles, media, then press releases, pulled from 10+ PostgreSQL tables and GCS buckets.</p>
+      </figure>
+      <figure class="ill">
+        <figcaption><span class="label">DemandFarm · internal tool</span><h3>Demo builder</h3></figcaption>
+        <canvas data-ill="demo" aria-label="Animated diagram: manual demo setup completes tasks slowly one by one; the demo builder completes the same tasks four times faster"></canvas>
+        <p>Demo setup that QA, Sales, and Customer Success did by hand became one click, making those teams about 4× more efficient.</p>
+      </figure>
+      <figure class="ill">
+        <figcaption><span class="label">DemandFarm · front end</span><h3>Reusable component library</h3></figcaption>
+        <canvas data-ill="components" aria-label="Animated diagram: shared components assemble into several pages while page load time drops 35%"></canvas>
+        <p>One shared set of Lightning Web Components built every page, standardizing the design and cutting load times 35%.</p>
+      </figure>
+    </div>
+  </section>
+
+  <section id="experience">
+    <div class="sec-head"><span class="label">03</span><h2>Experience</h2></div>
+    <div class="log">
+      <div class="entry">
+        <div class="when"><span class="now">Mar 2025 – now</span><br>Reston, VA</div>
+        <div>
+          <h3>Apptium Technologies</h3>
+          <div class="role">Software Engineer 2 · embedded with Comcast's Xfinity Mobile team</div>
+          <ul>
+            <li>Migrating the Xfinity Mobile cart service from Spring Boot to reactive Quarkus on AWS.</li>
+            <li>Cut p90 latency by <b>33–67%</b> on core cart APIs with parallel upstream calls, Redis caching, and refactoring.</li>
+            <li>Authored <b>6 design documents</b>, defined cart API contracts for dependent teams, and wrote ~30 stories across 5 epics.</li>
+            <li>Built AI tooling adopted beyond my team: a story-grooming agent, log-analysis skills, and a code intelligence platform.</li>
+            <li>Backup scrum facilitator for the team.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="entry">
+        <div class="when">Feb 2023 – Nov 2024<br>Reston, VA</div>
+        <div>
+          <h3>Brightspot (Perfect Sense)</h3>
+          <div class="role">Software Engineer 2 · Software Engineer 1</div>
+          <ul>
+            <li>Designed a queue-based, multi-threaded engine for cascading updates in a graph-like data model.</li>
+            <li>Led a 10M+ article migration for a major news agency.</li>
+            <li>Built GraphQL endpoints feeding a partner's recommendation model, and ran CMS upgrades for 3 client implementations.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="entry">
+        <div class="when">May – Aug 2022<br>Manassas, VA</div>
+        <div>
+          <h3>Berkley Technology Services</h3>
+          <div class="role">Software Developer Intern</div>
+          <ul>
+            <li>Built Dynatrace dashboards that helped cut downtime by 15%, and integrated alerts with Teams and ServiceNow through Flask APIs.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="entry">
+        <div class="when">Jul 2018 – Jun 2021<br>Pune, India</div>
+        <div>
+          <h3>DemandFarm</h3>
+          <div class="role">Software Engineer</div>
+          <ul>
+            <li>Built a full-stack program management app adopted by 30+ users at a key customer.</li>
+            <li>Cut load times 35% with reusable Lightning Web Components, and built a demo tool that made QA, Sales, and Customer Success 4x faster.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="skills">
+    <div class="sec-head"><span class="label">04</span><h2>Skills</h2></div>
+    <div class="skills">
+      <div class="skill-group"><h3>Languages</h3><div class="chips"><span class="chip">Java</span><span class="chip">Python</span><span class="chip">SQL</span><span class="chip">JavaScript</span><span class="chip">TypeScript</span></div></div>
+      <div class="skill-group"><h3>Backend</h3><div class="chips"><span class="chip">Quarkus</span><span class="chip">Spring Boot</span><span class="chip">SmallRye Mutiny</span><span class="chip">Spring Security</span><span class="chip">Hibernate</span><span class="chip">REST</span><span class="chip">GraphQL</span><span class="chip">OAuth2</span></div></div>
+      <div class="skill-group"><h3>Data &amp; messaging</h3><div class="chips"><span class="chip">Redis</span><span class="chip">DocumentDB</span><span class="chip">Oracle</span><span class="chip">PostgreSQL</span><span class="chip">MongoDB</span><span class="chip">Kafka</span><span class="chip">Kinesis</span></div></div>
+      <div class="skill-group"><h3>Cloud &amp; delivery</h3><div class="chips"><span class="chip">AWS</span><span class="chip">Docker</span><span class="chip">Kubernetes</span><span class="chip">Concourse</span><span class="chip">GitHub Actions</span><span class="chip">Maven</span></div></div>
+      <div class="skill-group"><h3>Observability</h3><div class="chips"><span class="chip">Kibana</span><span class="chip">Datadog</span><span class="chip">Dynatrace</span></div></div>
+      <div class="skill-group"><h3>AI tooling</h3><div class="chips"><span class="chip">Copilot agents</span><span class="chip">MCP</span><span class="chip">Google ADK</span><span class="chip">Claude API</span><span class="chip">tree-sitter</span></div></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="two">
+      <div>
+        <div class="sec-head"><span class="label">05</span><h2>Earlier projects</h2></div>
+        <ul class="plist">
+          <li><a href="https://github.com/Kalvinci/CS6888_Project">Fault localization in NoSQL queries ↗</a><p>Row-based dynamic slicing and delta debugging for MongoDB queries, from an IEEE paper. Python.</p></li>
+          <li><a href="https://github.com/noble-8/browserFingerPrintSpoofing">Browser fingerprint spoofer ↗</a><p>Chrome extension that spoofs canvas fingerprints and user agents so trackers classify you as a Tor user. JavaScript.</p></li>
+          <li><a href="https://github.com/Kalvinci/Smart-Garden-Server">Smart garden over Discord ↗</a><p>Arduino sensors and actuators controlled through Discord slash commands. Node.js, MongoDB.</p></li>
+          <li><a href="https://github.com/Kalvinci/onsocio">Interests from tweets ↗</a><p>Topic and sentiment classifiers over a user's tweets. Python, scikit-learn, Flask.</p></li>
         </ul>
-    </header>
-    <main>
-        <section id="home" class="page-0 space-mono-font ">
-            <div class="about-me">
-                <div>
-                    <p class="type-out-text"></p>
-                    <h1 class="heading type-out-text"></h1>
-                    <p class="sub-heading">
-                    <p class="type-out-text"></p>
-                    <p class="type-out-text"></p>
-                    <p class="type-out-text"></p>
-                    <p class="type-out-text"></p>
-                    <p class="type-out-text"></p>
-                    <p class="type-out-text"></p>
-                    <p class="type-out-text"></p>
-                    <p class="type-out-text"></p>
-                    <p class="type-out-text"></p>
-                    </p>
-                </div>
-                <div class="pic-card">
-                    <img id="profile-pic" src="images/subjectsPic.jpg" alt="profile pic">
-                </div>
-            </div>
-        </section>
-        <section id="education" class="page-3 space-mono-font ">
-            <p class="page-heading">
-                Education:
-            </p>
-            <div class="page-content">
-                <div class="sub-section">
-                    <div>
-                        <h3 class="sub-heading">
-                            University of Virginia,
-                            <span class="location">Charlottesville, VA</span>
-                        </h3>
-                        <p class="duration">
-                            August 2021 - December 2022
-                        </p>
-                    </div>
-                    <ul>
-                        <li>
-                            Master of Computer Science (MCS)
-                        </li>
-                        <li>
-                            GPA – 3.88
-                        </li>
-                    </ul>
-                </div>
-                <div class="sub-section">
-                    <div>
-                        <h3 class="sub-heading">
-                            MGM’s Jawaharlal Nehru Engineering College,
-                            <span class="location">Aurangabad, India</span>
-                        </h3>
-                        <p class="duration">
-                            August 2014 - May 2018
-                        </p>
-                    </div>
-                    <p class="description">
-                        Affiliated with <strong>Dr. Babasaheb Ambedkar Marathwada University</strong>
-                    </p>
-                    <ul>
-                        <li>
-                            Bachelor of Engineering in Computer Science and Engineering
-                        </li>
-                        <li>
-                            Percentage – 75.5%
-                        </li>
-                    </ul>
-                </div>
-                <div class="sub-section">
-                    <div>
-                        <h3 class="sub-heading">
-                            Saraswati Bhuvan Educational Society’s Junior College,
-                            <span class="location">Aurangabad, India</span>
-                        </h3>
-                        <p class="duration">
-                            June 2012 – February 2014
-                        </p>
-                    </div>
-                    <ul>
-                        <li>
-                            12<sup>th</sup> standard
-                        </li>
-                        <li>
-                            Percentage – 81.23%
-                        </li>
-                    </ul>
-                </div>
-                <div class="sub-section">
-                    <div>
-                        <h3 class="sub-heading">
-                            Oyster English High School,
-                            <span class="location">Aurangabad, India</span>
-                        </h3>
-                        <p class="duration">
-                            June 2011 – February 2012
-                        </p>
-                    </div>
-                    <ul>
-                        <li>
-                            10<sup>th</sup> standard
-                        </li>
-                        <li>
-                            Percentage – 90.18%
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </section>
-        <section id="experience" class="page-1 space-mono-font ">
-            <p class="page-heading">
-                Work Experience:
-            </p>
-            <div class="page-content">
-                <div class="sub-section">
-                    <div>
-                        <h3 class="sub-heading">
-                            Berkley Technology Services,
-                            <span class="location">Manassas, VA</span>
-                        </h3>
-                        <p class="duration">
-                            May 2022 - August 2022
-                        </p>
-                    </div>
-                    <p class="description">
-                        IT Solutions provider for W.R. Berkley Corporation and its 65+ insurance companies
-                    </p>
-                    <p>
-                        Position - Software Developer Intern
-                    </p>
-                    <ul>
-                        <li>Worked with the DevOps team (Autobots) to help monitor infrastructure and code.</li>
-                        <li>Learned to use an Application Performance Monitoring (APM) tool called Dynatrace.</li>
-                        <li>Worked with Webhooks and REST API endpoints for integrations with external systems.</li>
-                        <li>Understood Guidewire Software and Platform usage by P&C insurers.</li>
-                        <li>Created multiple dashboards for monitoring performance metrics of Web services, DB services,
-                            MessageQueue services, and WorkQueue services using Dynatrace.</li>
-                        <li>Enabled Dynatrace and Microsoft Teams integration for immediate access to problems
-                            identified with infrastructure and code.</li>
-                        <li>Enabled Dynatrace and ServiceNow integration for automatic creation of service tickets as
-                            and when infrastructure issues arise.</li>
-                    </ul>
-                </div>
-                <div class="sub-section">
-                    <div>
-                        <h3 class="sub-heading">
-                            DemandFarm Inc,
-                            <span class="location">Pune, India</span>
-                        </h3>
-                        <p class="duration">
-                            July 2018 - June 2021
-                        </p>
-                    </div>
-                    <p class="description">
-                        A software product company that offers B2B Key Account Management solutions
-                    </p>
-                    <p>
-                        Position - Product Engineer | Salesforce Developer
-                    </p>
-                    <ul>
-                        <li>
-                            Collaborated with 7 other team members on the core product.
-                        </li>
-                        <li>
-                            Created 6 new features. Revamped 4 key features.
-                        </li>
-                        <li>
-                            Developed a standalone Program Management application within Salesforce for a key customer
-                            organization. Currently used by 30+ people. Planned to be released as a new offering for
-                            other customers
-                        </li>
-                        <li>
-                            Built a demo builder utility tool for QA, Sales, and Customer Success teams. It helps to
-                            achieve <em><strong>4X</strong></em> efficiency.
-                        </li>
-                        <li>
-                            Enhanced UX of features by using state-of-the-art Lightning Web Components (LWC) and
-                            Salesforce Lightning Design System (SLDS).
-                        </li>
-                        <li>
-                            Improved performance metrics such as load time and action response time of certain features
-                            by <em><strong>35%</strong></em>.
-                        </li>
-                        <li>
-                            Rendered POCs and solutions, which helped to solve many of our key customers’ problems.
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </section>
-        <section id="projects" class="page-2 space-mono-font ">
-            <p class="page-heading">
-                Projects:
-            </p>
-            <div class="page-content">
-                <div class="sub-section">
-                    <div>
-                        <h3 class="sub-heading">
-                            Smart Garden Management using Discord
-                            <a href="https://github.com/Kalvinci/Smart-Garden-Server" target="_blank">
-                                <img src="./images/newTab.png" alt="newTab" class="newTab">
-                            </a>
-                        </h3>
-                        <p class="duration">
-                            March 2022 - May 2022
-                        </p>
-                    </div>
-                    <p class="description">
-                        (Arduino, Sensors, Actuators, NodeJS, MongoDB, DiscordJS, Webhook, REST API, Heroku)
-                    </p>
-                    <ul>
-                        <li>Created a Smart-Garden that can be remotely managed using Discord app.</li>
-                        <li>Worked in a team of 4 people and headed the Software implementation.</li>
-                        <li>Enabled communication between the Arduino attached to the Smart-Garden setup and user via
-                            Discord.</li>
-                        <li>Created a Discord bot that acts as the broker between the Garden and the user.</li>
-                        <li>Communication such as retrieval of information about the plants and actuating light and
-                            water supply was done using slash commands in Discord.</li>
+      </div>
+      <div>
+        <div class="sec-head"><span class="label">06</span><h2>Education</h2></div>
+        <div class="edu">
+          <div><h3>University of Virginia</h3><p>Master of Computer Science · 2021–2022</p></div>
+          <div><h3>MGM's Jawaharlal Nehru Engineering College</h3><p>B.E., Computer Science and Engineering · 2014–2018</p></div>
+          <div><h3>Certifications</h3><p>Red Hat Certified System Administrator</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-                    </ul>
-                </div>
-                <div class="sub-section">
-                    <div>
-                        <h3 class="sub-heading">
-                            Browser Fingerprint Spoofer
-                            <a href="https://github.com/noble-8/browserFingerPrintSpoofing" target="_blank">
-                                <img src="./images/newTab.png" alt="newTab" class="newTab">
-                            </a>
-                        </h3>
-                        <p class="duration">
-                            March 2022 - May 2022
-                        </p>
-                    </div>
-                    <p class="description">
-                        (Javascript, Chrome)
-                    </p>
-                    <ul>
-                        <li>Developed a chrome extension that spoofs the fingerprint of the browser.</li>
-                        <li>When the extension is enabled, browser fingerprinting scripts on websites will
-                            misclassify the user as a TOR user.</li>
-                        <li>Attempts to mimic TOR browser properties and hides the user in a pool of TOR users.
-                        </li>
-                        <li>Spoofs canvas fingerprint and enables users to randomly choose desired user-agent for
-                            the browser.</li>
-                    </ul>
-                </div>
-                <div class="sub-section">
-                    <div>
-                        <h3 class="sub-heading">
-                            Fault Localization in NoSql Queries
-                            <a href="https://github.com/Kalvinci/CS6888_Project" target="_blank">
-                                <img src="./images/newTab.png" alt="newTab" class="newTab">
-                            </a>
-                        </h3>
-                        <p class="duration">
-                            November 2021 - December 2021
-                        </p>
-                    </div>
-                    <p class="description">
-                        (Python, MongoDB)
-                    </p>
-                    <ul>
-                        <li>Attempted to develop a fault localization tool for NoSql queries based on a IEEE research
-                            paper.</li>
-                        <li>Implemented 2 program analysis concepts: Row-based dynamic slicing and Delta debugging.</li>
-                    </ul>
-                </div>
-                <div class="sub-section">
-                    <div>
-                        <h3 class="sub-heading">
-                            Identification of a person’s interests based on tweets
-                            <a href="https://github.com/Kalvinci/onsocio" target="_blank">
-                                <img src="./images/newTab.png" alt="newTab" class="newTab">
-                            </a>
-                        </h3>
-                        <p class="duration">
-                            November 2017 - February 2018
-                        </p>
-                    </div>
-                    <p class="description">
-                        (Python, Flask, and Jupyter Notebook)
-                    </p>
-                    <ul>
-                        <li>
-                            Using twitter API and machine learning techniques, created an application that can reveal a
-                            person’s interests based on his/her tweets and the personalities they follow.
-                        </li>
-                        <li>
-                            Trained two classifiers: one to classify tweets into categories such as sports, politics,
-                            movies, environment, and education and the other for doing sentiment analysis on the tweets.
-                        </li>
-                        <li>
-                            Classifiers were implemented using two different algorithms separately – Naïve Bayes and
-                            SVM.
-                        </li>
-                    </ul>
-                </div>
-                <div class="sub-section">
-                    <div>
-                        <h3 class="sub-heading">
-                            Virtual assistant application for windows
-                        </h3>
-                        <p class="duration">
-                            October 2016 - February 2017
-                        </p>
-                    </div>
-                    <p class="description">
-                        (C#.NET and Visual Studio 2017)
-                    </p>
-                    <ul>
-                        <li>
-                            Developed a windows application that performs tasks on receiving voice commands.
-                        </li>
-                        <li>
-                            Was an attempt to replicate windows’ Cortana.
-                        </li>
-                    </ul>
-                </div>
-                <div class="sub-section">
-                    <div>
-                        <h3 class="sub-heading">
-                            Website for a hotel
-                        </h3>
-                        <p class="duration">
-                            November 2015 - December 2015
-                        </p>
-                    </div>
-                    <p class="description">
-                        (HTML, CSS, Vanilla JS, Bootstrap, PHP, and Mysql)
-                    </p>
-                    <ul>
-                        <li>
-                            A dynamic website that enables customers to book hotels.
-                        </li>
-                        <li>
-                            The site also bears a user profile module that enables them to see their booking status and
-                            also manipulate their profile's theme and style as per their will.
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </section>
-        <section id="skills" class="page-4 space-mono-font ">
-            <p class="page-heading">
-                Languages, Frameworks, Tools, and Platforms I'm acquainted with:
-            </p>
-            <div class="skill-set">
-                <div>
-                    <img class="skill-icon" src="images/c-icon.png" alt="c">
-                    <p>C</p>
-                </div>
-                <div>
-                    <img class="skill-icon" src="images/cpp_logo.png" alt="c++">
-                    <p>C++</p>
-                </div>
-                <div>
-                    <img class="skill-icon" src="images/java-logo.jpg" alt="java">
-                    <p>Java</p>
-                </div>
-                <div>
-                    <img class="skill-icon" src="images/Python-Logo.png" alt="python">
-                    <p>Python</p>
-                </div>
-                <div>
-                    <img class="skill-icon" src="images/logo-javascript.png" alt="js">
-                    <p>Javascript</p>
-                </div>
-                <div>
-                    <img class="skill-icon" src="images/html5-icon.jpg" alt="html">
-                    <p>HTML5</p>
-                </div>
-                <div>
-                    <img class="skill-icon" src="images/css3-icon.png" alt="css">
-                    <p>CSS3</p>
-                </div>
-                <div>
-                    <img class="skill-icon" src="images/Apex-Salesforce.png" alt="apex">
-                    <p>Apex</p>
-                </div>
-                <div>
-                    <img class="skill-icon" src="images/Salesforce-lightning.png" alt="lightning">
-                    <p>Salesforce Lightning framework</p>
-                </div>
-                <div>
-                    <img class="skill-icon" src="images/salesforce-visualforce-icon.jpg" alt="vf">
-                    <p>Visualforce</p>
-                </div>
-                <div>
-                    <img class="skill-icon" src="images/lighting-web-components.webp" alt="web-components">
-                    <p>Salesforce Lightning Web Components</p>
-                </div>
-                <div>
-                    <img class="skill-icon" src="images/AngularJS_logo.svg" alt="angularjs">
-                    <p>Angular JS</p>
-                </div>
-                <div>
-                    <img class="skill-icon" src="images/SLDS-icon.svg" alt="slds">
-                    <p>Salesforce Lightning Design System</p>
-                </div>
-                <div>
-                    <img class="skill-icon" src="images/bootstrap-icon.jpg" alt="bootstrap">
-                    <p>Bootstrap</p>
-                </div>
-                <div>
-                    <img class="skill-icon" src="images/Git-Logo.png" alt="git">
-                    <p>Git</p>
-                </div>
-                <div>
-                    <img class="skill-icon" src="images/mysql-icon.png" alt="mysql">
-                    <p>Mysql</p>
-                </div>
-                <div>
-                    <img class="skill-icon" src="images/salesforce_logo.png" alt="salesforce">
-                    <p>Salesforce</p>
-                </div>
-                <div>
-                    <img class="skill-icon" src="images/red-hat-logo.png" alt="redhat">
-                    <p>RedHat</p>
-                </div>
-                <div>
-                    <img class="skill-icon" src="images/ubuntu-icon.png" alt="ubuntu">
-                    <p>Ubuntu</p>
-                </div>
-                <div>
-                    <img class="skill-icon" src="images/dynatrace.webp" alt="dynatrace">
-                    <p>Dynatrace</p>
-                </div>
-            </div>
-        </section>
-    </main>
-    <footer id="social-media">
-        <a href="https://github.com/Kalvinci" target="_blank" rel="noreferrer"><img src="images/github.png"
-                alt="github"></a>
-        <a href="https://www.linkedin.com/in/kalyanasundharamkathiresan/" target="_blank" rel="noreferrer"><img
-                src="images/linkedin.png" alt="linkedin"></a>
-        <a href="https://twitter.com/_kalvinci" target="_blank" rel="noreferrer"><img src="images/twitter.png"
-                alt="twitter"></a>
-        <a href="https://www.facebook.com/people/Kalyanasundharam-Kathiresan/100006608177851" target="_blank"
-            rel="noreferrer"><img src="images/facebook.svg" alt="facebook"></a>
-    </footer>
-    <!-- Scripts -->
-    <script src="scripts/index.js"></script>
+  <section id="contact">
+    <div class="contact">
+      <div>
+        <h2>Let's talk.</h2>
+        <p>Open to conversations about senior backend and platform engineering roles.</p>
+      </div>
+      <div class="contact-list">
+        <a href="mailto:kalyanasundharam.kathiresan@gmail.com"><span class="k">email</span><span>kalyanasundharam.kathiresan@gmail.com</span></a>
+        <a href="https://www.linkedin.com/in/kalyanasundharamkathiresan"><span class="k">linkedin</span><span>/in/kalyanasundharamkathiresan</span></a>
+        <a href="https://github.com/Kalvinci"><span class="k">github</span><span>/Kalvinci</span></a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">© 2026 Kalyanasundharam Kathiresan · Northern Virginia</div>
+</footer>
+
+<script>
+(function () {
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Stagger indexes for the impact log
+  document.querySelectorAll('.impact .grp-head, .impact .row').forEach(function (el, i) { el.style.setProperty('--i', i); });
+
+  // Scroll progress bar
+  var bar = document.getElementById('progress');
+  function onScroll() {
+    var h = document.documentElement.scrollHeight - innerHeight;
+    bar.style.transform = 'scaleX(' + (h > 0 ? Math.min(1, scrollY / h) : 0) + ')';
+  }
+  addEventListener('scroll', onScroll, { passive: true }); onScroll();
+
+  // Card spotlight follows the cursor
+  document.querySelectorAll('.card').forEach(function (c) {
+    c.addEventListener('pointermove', function (e) {
+      var r = c.getBoundingClientRect();
+      c.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+      c.style.setProperty('--my', (e.clientY - r.top) + 'px');
+    });
+  });
+
+  if (reduce) return;
+
+  // Scramble "Backend engineer." into place
+  var el = document.getElementById('scramble'), target = el.textContent, glyphs = '01{}<>/#_=+*';
+  var frame = 0, total = 28;
+  (function tick() {
+    var out = '';
+    for (var i = 0; i < target.length; i++) {
+      var settle = (i / target.length) * total * 0.8 + 6;
+      out += (frame >= settle || target[i] === ' ') ? target[i] : glyphs[Math.floor(Math.random() * glyphs.length)];
+    }
+    el.textContent = out;
+    if (++frame <= total + 8) setTimeout(tick, 38); else el.textContent = target;
+  })();
+
+  // Count up the impact numbers
+  document.querySelectorAll('.impact .n').forEach(function (n, idx) {
+    var txt = n.textContent, m = txt.match(/^([^\d]*)(\d+(?:\.\d+)?)(.*)$/);
+    if (!m) return;
+    var pre = m[1], val = parseFloat(m[2]), post = m[3], start = null, dur = 1200, delay = 300 + idx * 90;
+    n.style.minWidth = n.offsetWidth + 'px';
+    setTimeout(function () {
+      requestAnimationFrame(function step(t) {
+        if (!start) start = t;
+        var p = Math.min(1, (t - start) / dur), e = 1 - Math.pow(1 - p, 3);
+        n.textContent = pre + Math.round(val * e) + post;
+        if (p < 1) requestAnimationFrame(step); else n.textContent = txt;
+      });
+    }, delay);
+  });
+
+  // Gentle rise for sections as they scroll in (content stays visible throughout)
+  var targets = document.querySelectorAll('section, .entry');
+  if ('IntersectionObserver' in window) {
+    targets.forEach(function (t) { if (t.getBoundingClientRect().top > innerHeight) { t.classList.add('reveal', 'pending'); } });
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.remove('pending'); io.unobserve(e.target); } });
+    }, { rootMargin: '0px 0px -8% 0px' });
+    targets.forEach(function (t) { if (t.classList.contains('pending')) io.observe(t); });
+  }
+
+  // Service-mesh background: nodes, links, and request packets travelling between services
+  var cv = document.getElementById('mesh'), ctx = cv.getContext('2d'), dpr = Math.min(2, devicePixelRatio || 1);
+  var nodes = [], packets = [], W = 0, H = 0, running = true;
+  function resize() {
+    W = cv.clientWidth; H = cv.clientHeight;
+    cv.width = W * dpr; cv.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    var count = Math.round(Math.min(46, Math.max(18, W / 30)));
+    nodes = [];
+    for (var i = 0; i < count; i++) nodes.push({ x: Math.random() * W, y: Math.random() * H, vx: (Math.random() - .5) * .18, vy: (Math.random() - .5) * .18, r: Math.random() < .15 ? 2.4 : 1.4 });
+  }
+  function links() {
+    var out = [], max = 150;
+    for (var i = 0; i < nodes.length; i++) for (var j = i + 1; j < nodes.length; j++) {
+      var dx = nodes[i].x - nodes[j].x, dy = nodes[i].y - nodes[j].y, d = Math.sqrt(dx * dx + dy * dy);
+      if (d < max) out.push([i, j, 1 - d / max]);
+    }
+    return out;
+  }
+  function draw() {
+    if (!running) return;
+    ctx.clearRect(0, 0, W, H);
+    nodes.forEach(function (n) {
+      n.x += n.vx; n.y += n.vy;
+      if (n.x < 0 || n.x > W) n.vx *= -1;
+      if (n.y < 0 || n.y > H) n.vy *= -1;
+    });
+    var ls = links();
+    ls.forEach(function (l) {
+      var a = nodes[l[0]], b = nodes[l[1]];
+      ctx.strokeStyle = 'rgba(94,201,213,' + (l[2] * 0.24) + ')'; ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
+    });
+    nodes.forEach(function (n) {
+      ctx.fillStyle = n.r > 2 ? 'rgba(240,162,59,0.55)' : 'rgba(138,151,168,0.6)';
+      ctx.beginPath(); ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2); ctx.fill();
+    });
+    if (ls.length && packets.length < 9 && Math.random() < 0.06) {
+      var l = ls[Math.floor(Math.random() * ls.length)];
+      packets.push({ a: l[0], b: l[1], t: 0, s: 0.008 + Math.random() * 0.01 });
+    }
+    packets = packets.filter(function (p) {
+      p.t += p.s; if (p.t >= 1) return false;
+      var a = nodes[p.a], b = nodes[p.b], x = a.x + (b.x - a.x) * p.t, y = a.y + (b.y - a.y) * p.t;
+      ctx.fillStyle = 'rgba(94,201,213,0.9)'; ctx.beginPath(); ctx.arc(x, y, 1.8, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = 'rgba(94,201,213,0.15)'; ctx.beginPath(); ctx.arc(x, y, 5, 0, Math.PI * 2); ctx.fill();
+      return true;
+    });
+    requestAnimationFrame(draw);
+  }
+  resize(); addEventListener('resize', resize);
+  document.addEventListener('visibilitychange', function () { var was = running; running = !document.hidden; if (running && !was) requestAnimationFrame(draw); });
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function (es) { var was = running; running = es[0].isIntersecting && !document.hidden; if (running && !was) requestAnimationFrame(draw); }).observe(cv);
+  }
+  requestAnimationFrame(draw);
+})();
+</script>
+<script>
+(function () {
+  var C = { bg: '#0b0f15', panel: '#111823', line: '#1e2938', line2: '#2a3a4e', text: '#dfe6ee', muted: '#8a97a8', amber: '#f0a23b', cyan: '#5ec9d5' };
+  var MONO = '"Martian Mono", ui-monospace, monospace', SANS = '"Geist", system-ui, sans-serif';
+  var REST = false;
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function rr(ctx, x, y, w, h, r) { ctx.beginPath(); ctx.moveTo(x + r, y); ctx.arcTo(x + w, y, x + w, y + h, r); ctx.arcTo(x + w, y + h, x, y + h, r); ctx.arcTo(x, y + h, x, y, r); ctx.arcTo(x, y, x + w, y, r); ctx.closePath(); }
+  function box(ctx, x, y, w, h, label, opt) {
+    opt = opt || {};
+    rr(ctx, x, y, w, h, 6);
+    ctx.fillStyle = opt.fill || C.panel; ctx.fill();
+    ctx.setLineDash(opt.dash ? [4, 3] : []); ctx.strokeStyle = opt.stroke || C.line2; ctx.lineWidth = 1; ctx.stroke(); ctx.setLineDash([]);
+    ctx.fillStyle = opt.color || C.text; ctx.font = (opt.size || 11) + 'px ' + MONO; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.fillText(label, x + w / 2, y + h / 2 + 0.5);
+  }
+  function txt(ctx, s, x, y, o) { o = o || {}; ctx.fillStyle = o.color || C.muted; ctx.font = (o.weight || '') + ' ' + (o.size || 10) + 'px ' + (o.font || MONO); ctx.textAlign = o.align || 'left'; ctx.textBaseline = 'middle'; ctx.fillText(s, x, y); }
+  function dot(ctx, x, y, r, c, glow) { if (glow) { ctx.fillStyle = 'rgba(94,201,213,0.18)'; ctx.beginPath(); ctx.arc(x, y, r * 3, 0, 7); ctx.fill(); } ctx.fillStyle = c; ctx.beginPath(); ctx.arc(x, y, r, 0, 7); ctx.fill(); }
+  function line(ctx, x1, y1, x2, y2, c, w) { ctx.strokeStyle = c; ctx.lineWidth = w || 1; ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x2, y2); ctx.stroke(); }
+  function clamp(v) { return Math.max(0, Math.min(1, v)); }
+  function ease(p) { return 1 - Math.pow(1 - clamp(p), 3); }
+
+  // ---------- Apptium: tax middleman ----------
+  // Path segments: [from, to, duration]; "wait" segments sit on a node.
+  var before = [['c', 'm', .4], ['m', 'm', .6], ['m', 't', .4], ['t', 't', .2], ['t', 'm', .4], ['m', 'm', .6], ['m', 'c', .4]];
+  var after = [['c', 't', .35], ['t', 't', .3], ['t', 'c', .35]];
+  function pathPos(path, pos, t) {
+    var acc = 0;
+    for (var i = 0; i < path.length; i++) {
+      var s = path[i];
+      if (t <= acc + s[2]) { var p = (t - acc) / s[2], a = pos[s[0]], b = pos[s[1]]; return { x: a.x + (b.x - a.x) * p, y: a.y, wait: s[0] === s[1] }; }
+      acc += s[2];
+    }
+    return null;
+  }
+  function drawTax(ctx, W, H, t) {
+    var cyc = 5, tt = (reduce || REST) ? 1.6 : t % cyc, bw = Math.min(96, W * 0.2), bh = 30, pad = 18;
+    var x0 = pad + 52, x2 = W - pad - bw - 46, x1 = (x0 + x2) / 2;
+    var rows = [{ y: H * 0.3, label: 'BEFORE', path: before, total: 3.0, pct: '100%', mid: true }, { y: H * 0.72, label: 'AFTER', path: after, total: 1.0, pct: '33%', mid: false }];
+    rows.forEach(function (r) {
+      var cy = r.y, pos = { c: { x: x0 + bw / 2, y: cy }, m: { x: x1 + bw / 2, y: cy }, t: { x: x2 + bw / 2, y: cy } };
+      txt(ctx, r.label, pad, cy - bh / 2 - 12, { color: r.mid ? C.amber : C.cyan, size: 9 });
+      line(ctx, x0 + bw, cy, x2, cy, C.line2);
+      box(ctx, x0, cy - bh / 2, bw, bh, 'cart');
+      if (r.mid) box(ctx, x1, cy - bh / 2, bw, bh, 'middleman', { dash: true, stroke: C.amber, color: C.amber });
+      else { ctx.globalAlpha = .25; box(ctx, x1, cy - bh / 2, bw, bh, 'middleman', { dash: true }); ctx.globalAlpha = 1; line(ctx, x1 + 8, cy - bh / 2 + 6, x1 + bw - 8, cy + bh / 2 - 6, C.muted); }
+      box(ctx, x2, cy - bh / 2, bw, bh, 'tax API');
+      var p = pathPos(r.path, pos, Math.min(tt, r.total - 0.001));
+      if (p && tt < r.total) dot(ctx, p.x, p.y, 4, r.mid ? C.amber : C.cyan, true);
+      // latency meter
+      var mx = W - pad - 36, prog = clamp(tt / r.total), done = tt >= r.total;
+      txt(ctx, done ? r.pct : Math.round(prog * r.total / 3 * 100) + '%', W - pad, cy, { align: 'right', color: done ? (r.mid ? C.amber : C.cyan) : C.muted, size: 11, weight: '600' });
+      ctx.fillStyle = C.line; ctx.fillRect(x0, cy + bh / 2 + 10, x2 + bw - x0, 3);
+      ctx.fillStyle = r.mid ? C.amber : C.cyan; ctx.fillRect(x0, cy + bh / 2 + 10, (x2 + bw - x0) * Math.min(tt, r.total) / 3, 3);
+    });
+    txt(ctx, 'latency', W - pad, 14, { align: 'right', size: 9 });
+  }
+
+  // ---------- Apptium: parallel + cache ----------
+  function drawParallel(ctx, W, H, t) {
+    var cyc = 6.2, tt = (reduce || REST) ? 4.2 : t % cyc, pad = 18, lx = pad + 74, rx = W - pad - 44, scale = (rx - lx) / 4.0;
+    var groups = [
+      { label: 'BEFORE · one at a time', y: 34, color: C.amber, bars: [['upstream A', 0, 1.4], ['upstream B', 1.4, 1.3], ['upstream C', 2.7, 1.3]], total: 4.0 },
+      { label: 'AFTER · parallel + Redis', y: H / 2 + 22, color: C.cyan, bars: [['upstream A', 0, 2.2], ['upstream B', 0, 2.5], ['cache hit', 0, 0.08]], total: 2.5 }
+    ];
+    groups.forEach(function (g) {
+      txt(ctx, g.label, pad, g.y, { color: g.color, size: 9 });
+      g.bars.forEach(function (b, i) {
+        var y = g.y + 16 + i * 20, w = b[2] * scale, x = lx + b[1] * scale;
+        txt(ctx, b[0], lx - 8, y + 6, { align: 'right', size: 9, color: b[0] === 'cache hit' ? C.cyan : C.muted });
+        rr(ctx, x, y, Math.max(3, w), 12, 3); ctx.fillStyle = C.line; ctx.fill();
+        var f = clamp((tt - b[1]) / b[2]);
+        if (f > 0) { rr(ctx, x, y, Math.max(3, w * f), 12, 3); ctx.fillStyle = g.color; ctx.globalAlpha = b[0] === 'cache hit' ? 1 : 0.8; ctx.fill(); ctx.globalAlpha = 1; }
+      });
+      var done = tt >= g.total;
+      txt(ctx, done ? (g.total === 4 ? '100%' : '62%') : '…', W - pad, g.y + 36, { align: 'right', size: 11, weight: '600', color: done ? g.color : C.muted });
+    });
+    var px = lx + Math.min(tt, 4.0) * scale;
+    ctx.setLineDash([3, 3]); line(ctx, px, 22, px, H - 8, 'rgba(223,230,238,0.35)'); ctx.setLineDash([]);
+  }
+
+  // ---------- Brightspot: cascade engine ----------
+  var CN = { levels: [[0], [1, 2, 3], [4, 5, 6, 7], [8, 9]], parents: { 1: [0], 2: [0], 3: [0], 4: [1], 5: [1], 6: [2], 7: [3], 8: [4, 5], 9: [6, 7] } };
+  var children = {}; Object.keys(CN.parents).forEach(function (k) { CN.parents[k].forEach(function (p) { (children[p] = children[p] || []).push(+k); }); });
+  var sched = (function () {
+    var s = { 0: { enq: 0.3, start: 0.3, end: 0.9, w: -1 } }, queue = [], free = [0, 0, 0], busy = [null, null, null], now = 0, dt = 0.01, dur = 0.7, queued = { 0: 1 };
+    var pending = [{ id: 0, at: 0.9 }];
+    while (now < 12) {
+      // completions
+      for (var w = 0; w < 3; w++) if (busy[w] !== null && s[busy[w]].end <= now + 1e-9) { pending.push({ id: busy[w], at: now }); busy[w] = null; }
+      pending = pending.filter(function (p) {
+        if (p.at > now + 1e-9) return true;
+        (children[p.id] || []).forEach(function (c) { if (!queued[c]) { queued[c] = 1; s[c] = { enq: now }; queue.push(c); } });
+        return false;
+      });
+      for (w = 0; w < 3; w++) if (busy[w] === null && queue.length) { var id = queue.shift(); s[id].start = now; s[id].end = now + dur; s[id].w = w; busy[w] = id; }
+      now = Math.round((now + dt) * 100) / 100;
+    }
+    return s;
+  })();
+  function drawCascade(ctx, W, H, t) {
+    var cyc = 6.5, tt = (reduce || REST) ? 2.6 : t % cyc, pad = 18, gw = W * 0.56, pos = {};
+    CN.levels.forEach(function (lv, li) {
+      lv.forEach(function (id, i) { pos[id] = { x: pad + 14 + (gw - pad - 28) * (i + 1) / (lv.length + 1), y: 26 + li * ((H - 52) / 3) }; });
+    });
+    Object.keys(CN.parents).forEach(function (k) { CN.parents[k].forEach(function (p) { var a = pos[p], b = pos[k], done = tt >= sched[k].end; line(ctx, a.x, a.y, b.x, b.y, done ? 'rgba(94,201,213,0.45)' : C.line2, done ? 1.4 : 1); }); });
+    Object.keys(pos).forEach(function (k) {
+      var s = sched[k], p = pos[k], r = 9;
+      var state = tt >= s.end ? 'done' : tt >= s.start ? 'run' : tt >= s.enq ? 'queued' : 'idle';
+      ctx.beginPath(); ctx.arc(p.x, p.y, r, 0, 7);
+      ctx.fillStyle = state === 'done' ? C.cyan : C.panel; ctx.fill();
+      ctx.lineWidth = 1.5; ctx.strokeStyle = state === 'idle' ? C.line2 : state === 'done' ? C.cyan : C.amber; ctx.stroke();
+      if (state === 'run') { var f = (tt - s.start) / (s.end - s.start); ctx.beginPath(); ctx.arc(p.x, p.y, r + 4, -Math.PI / 2, -Math.PI / 2 + f * Math.PI * 2); ctx.strokeStyle = C.amber; ctx.lineWidth = 2; ctx.stroke(); }
+      txt(ctx, String(k), p.x, p.y + 0.5, { align: 'center', size: 8, color: state === 'done' ? C.bg : C.text });
+    });
+    if (tt >= 0.3 && tt < 0.9) txt(ctx, 'edit', pos[0].x + 16, pos[0].y, { color: C.amber, size: 9 });
+    // queue
+    var qx = gw + 10, qw = W - pad - qx;
+    txt(ctx, 'QUEUE', qx, 22, { size: 9, color: C.amber });
+    var inQ = Object.keys(sched).filter(function (k) { var s = sched[k]; return k !== '0' && tt >= s.enq && tt < s.start; }).sort(function (a, b) { return sched[a].enq - sched[b].enq; });
+    rr(ctx, qx, 32, qw, 26, 5); ctx.strokeStyle = C.line2; ctx.lineWidth = 1; ctx.stroke();
+    inQ.slice(0, 6).forEach(function (k, i) { var cw = Math.min(26, (qw - 8) / 6 - 4); rr(ctx, qx + 5 + i * (cw + 4), 37, cw, 16, 3); ctx.fillStyle = 'rgba(240,162,59,0.18)'; ctx.fill(); ctx.strokeStyle = C.amber; ctx.stroke(); txt(ctx, k, qx + 5 + i * (cw + 4) + cw / 2, 45.5, { align: 'center', size: 8, color: C.amber }); });
+    if (!inQ.length) txt(ctx, tt > 4 ? 'drained' : 'empty', qx + 8, 45, { size: 9 });
+    txt(ctx, 'WORKER THREADS', qx, 80, { size: 9, color: C.cyan });
+    for (var w = 0; w < 3; w++) {
+      var y = 92 + w * 26;
+      txt(ctx, 'T' + (w + 1), qx, y + 8, { size: 9 });
+      rr(ctx, qx + 22, y, qw - 22, 16, 3); ctx.fillStyle = C.line; ctx.fill();
+      var cur = Object.keys(sched).filter(function (k) { var s = sched[k]; return s.w === w && tt >= s.start && tt < s.end; })[0];
+      if (cur) { var s = sched[cur], f = (tt - s.start) / (s.end - s.start); rr(ctx, qx + 22, y, (qw - 22) * f, 16, 3); ctx.fillStyle = 'rgba(94,201,213,0.75)'; ctx.fill(); txt(ctx, 'node ' + cur, qx + 28, y + 8.5, { size: 8, color: C.text }); }
+    }
+  }
+
+  // ---------- Brightspot: migration ----------
+  function drawMigration(ctx, W, H, t) {
+    var cyc = 9.5, tt = (reduce || REST) ? 9 : t % cyc, pad = 18, bw = Math.min(118, W * 0.27), bh = 34;
+    var src = [{ x: pad, y: H * 0.26, l: 'PostgreSQL · 10+' }, { x: pad, y: H * 0.62, l: 'GCS buckets' }], tgt = { x: W - pad - bw, y: H * 0.44 };
+    var phases = [['articles', 0, 3, [0]], ['media', 3, 6, [1, 0]], ['press releases', 6, 8.6, [0]]];
+    src.forEach(function (s) { box(ctx, s.x, s.y - bh / 2, bw, bh, s.l, { size: 10 }); });
+    box(ctx, tgt.x, tgt.y - bh / 2, bw, bh, 'Brightspot', { stroke: C.cyan, color: C.cyan });
+    function bez(a, b, p) { var cx = (a.x + b.x) / 2, x = (1 - p) * (1 - p) * a.x + 2 * (1 - p) * p * cx + p * p * b.x, y = (1 - p) * (1 - p) * a.y + 2 * (1 - p) * p * ((a.y + b.y) / 2) + p * p * b.y; return { x: x, y: y }; }
+    src.forEach(function (s) { var a = { x: s.x + bw, y: s.y }, b = { x: tgt.x, y: tgt.y }; ctx.strokeStyle = C.line2; ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.quadraticCurveTo((a.x + b.x) / 2, (a.y + b.y) / 2, b.x, b.y); ctx.stroke(); });
+    if (!reduce) for (var k = 0; k < 160; k++) {
+      var spawn = k * 0.055, age = tt - spawn, ph = phases.filter(function (p) { return spawn >= p[1] && spawn < p[2]; })[0];
+      if (!ph || age < 0 || age > 1.1) continue;
+      var si = ph[3][k % ph[3].length], s = src[si], p = bez({ x: s.x + bw, y: s.y }, tgt, age / 1.1);
+      dot(ctx, p.x, p.y, 2, si === 1 ? C.amber : C.cyan, false);
+    }
+    var count = Math.floor(10000000 * ease(tt / 8.6));
+    txt(ctx, count.toLocaleString('en-US') + (tt >= 8.6 ? '+' : ''), tgt.x + bw / 2, tgt.y + bh / 2 + 16, { align: 'center', size: 12, weight: '600', color: C.text });
+    txt(ctx, 'records migrated', tgt.x + bw / 2, tgt.y + bh / 2 + 32, { align: 'center', size: 9 });
+    // phase bar
+    var by = H - 22, bx = pad, bwid = W - pad * 2;
+    phases.forEach(function (p, i) {
+      var x = bx + bwid * p[1] / 8.6, w = bwid * (p[2] - p[1]) / 8.6 - 4, f = clamp((tt - p[1]) / (p[2] - p[1]));
+      rr(ctx, x, by, w, 4, 2); ctx.fillStyle = C.line; ctx.fill();
+      if (f > 0) { rr(ctx, x, by, w * f, 4, 2); ctx.fillStyle = C.cyan; ctx.fill(); }
+      txt(ctx, 'phase ' + (i + 1) + ' · ' + p[0], x, by - 9, { size: 8, color: f > 0 && f < 1 ? C.text : C.muted });
+    });
+  }
+
+  // ---------- DemandFarm: demo builder ----------
+  function drawDemo(ctx, W, H, t) {
+    var cyc = 7, tt = (reduce || REST) ? 6 : t % cyc, pad = 18, colW = (W - pad * 3) / 2, n = 8;
+    var cols = [{ x: pad, label: 'BY HAND', color: C.amber, step: 0.68, start: 0.2 }, { x: pad * 2 + colW, label: 'DEMO BUILDER', color: C.cyan, step: 0.17, start: 0.6 }];
+    cols.forEach(function (c, ci) {
+      txt(ctx, c.label, c.x, 18, { size: 9, color: c.color });
+      var rowH = (H - 60) / n;
+      for (var i = 0; i < n; i++) {
+        var y = 32 + i * rowH, done = tt >= c.start + (i + 1) * c.step, active = !done && tt >= c.start + i * c.step;
+        rr(ctx, c.x, y, colW, rowH - 4, 3); ctx.fillStyle = done ? (ci ? 'rgba(94,201,213,0.14)' : 'rgba(240,162,59,0.12)') : C.panel; ctx.fill();
+        ctx.strokeStyle = active ? c.color : C.line; ctx.lineWidth = 1; ctx.stroke();
+        txt(ctx, 'setup task ' + (i + 1), c.x + 8, y + (rowH - 4) / 2, { size: 8, color: done ? C.text : C.muted });
+        if (done) txt(ctx, '✓', c.x + colW - 10, y + (rowH - 4) / 2, { size: 10, color: c.color, align: 'right' });
+      }
+      var finish = c.start + n * c.step;
+      txt(ctx, tt >= finish ? (ci ? 'done · 4× faster' : 'done') : 'running…', c.x, H - 14, { size: 9, weight: '600', color: tt >= finish ? c.color : C.muted });
+    });
+    if (tt > 0.4 && tt < 0.9) { rr(ctx, cols[1].x + colW - 70, 8, 70, 18, 4); ctx.fillStyle = C.cyan; ctx.fill(); txt(ctx, 'run ▸', cols[1].x + colW - 35, 17.5, { size: 9, align: 'center', color: C.bg }); }
+  }
+
+  // ---------- DemandFarm: component library ----------
+  function drawComponents(ctx, W, H, t) {
+    var cyc = 7.5, tt = (reduce || REST) ? 6.5 : t % cyc, pad = 18, libW = Math.min(110, W * 0.24);
+    var comps = [['header', C.cyan, 0.16], ['chart', C.amber, 0.34], ['table', '#9aa7ff', 0.3], ['card', '#7fd49b', 0.2]];
+    txt(ctx, 'COMPONENTS', pad, 16, { size: 9, color: C.cyan });
+    var lib = comps.map(function (c, i) { var y = 28 + i * 30; rr(ctx, pad, y, libW, 22, 4); ctx.fillStyle = C.panel; ctx.fill(); ctx.strokeStyle = c[1]; ctx.stroke(); txt(ctx, c[0], pad + 10, y + 11, { size: 9, color: c[1] }); return { x: pad, y: y }; });
+    var pages = 3, gx = pad + libW + 22, pw = (W - pad - gx - (pages - 1) * 10) / pages, ph = H - 74, py = 24;
+    var slots = [[0], [1, 3], [2]], k = 0;
+    for (var p = 0; p < pages; p++) {
+      var x = gx + p * (pw + 10);
+      rr(ctx, x, py, pw, ph, 5); ctx.fillStyle = 'rgba(17,24,35,0.6)'; ctx.fill(); ctx.strokeStyle = C.line2; ctx.stroke();
+      txt(ctx, 'page ' + (p + 1), x + 6, py + 9, { size: 8 });
+      var sy = py + 20, order = [0, p === 1 ? 2 : 1, 3];
+      order.forEach(function (ci, j) {
+        var c = comps[ci], h = (ph - 28) * c[2] / 0.8, start = 0.3 + k * 0.32, f = ease((tt - start) / 0.45); k++;
+        var tx = x + 5, ty = sy, src = lib[ci];
+        if (f > 0) {
+          var cx = src.x + (tx - src.x) * f, cy = src.y + (ty - src.y) * f, cw = libW + (pw - 10 - libW) * f, ch = 22 + (h - 22) * f;
+          rr(ctx, cx, cy, cw, ch, 3); ctx.fillStyle = c[1]; ctx.globalAlpha = 0.22 + 0.1 * (1 - f); ctx.fill(); ctx.globalAlpha = 1; ctx.strokeStyle = c[1]; ctx.stroke();
+        }
+        sy += h + 4;
+      });
+    }
+    var built = clamp((tt - 0.3) / (9 * 0.32 + 0.45)), loadW = W - pad * 2, ly = H - 26;
+    txt(ctx, 'page load time', pad, ly - 10, { size: 8 });
+    rr(ctx, pad, ly, loadW, 5, 2); ctx.fillStyle = C.line; ctx.fill();
+    rr(ctx, pad, ly, loadW * (1 - 0.35 * built), 5, 2); ctx.fillStyle = built >= 1 ? C.cyan : C.amber; ctx.fill();
+    txt(ctx, built >= 1 ? '−35%' : Math.round(100 - 35 * built) + '%', W - pad, ly - 10, { size: 9, align: 'right', weight: '600', color: built >= 1 ? C.cyan : C.muted });
+  }
+
+  var DRAW = { tax: drawTax, parallel: drawParallel, cascade: drawCascade, migration: drawMigration, demo: drawDemo, components: drawComponents };
+
+  document.querySelectorAll('canvas[data-ill]').forEach(function (cv) {
+    var fn = DRAW[cv.getAttribute('data-ill')], ctx = cv.getContext('2d'), W = 0, H = 0, visible = false, t0 = null, raf = null;
+    function size() {
+      var dpr = Math.min(2, window.devicePixelRatio || 1); W = cv.clientWidth; H = cv.clientHeight;
+      cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr); ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+    function frame(ts) {
+      if (t0 === null) t0 = ts;
+      ctx.clearRect(0, 0, W, H); fn(ctx, W, H, (ts - t0) / 1000);
+      raf = (visible && !reduce) ? requestAnimationFrame(frame) : null;
+    }
+    size();
+    ctx.clearRect(0, 0, W, H); REST = true; fn(ctx, W, H, 0); REST = false;   // complete frame at rest
+    if ('ResizeObserver' in window) new ResizeObserver(function () { size(); if (!raf) { ctx.clearRect(0, 0, W, H); REST = true; fn(ctx, W, H, 0); REST = false; } }).observe(cv);
+    if (reduce) return;
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (es) {
+        visible = es[0].isIntersecting;
+        if (visible && !raf) { t0 = null; raf = requestAnimationFrame(frame); }
+      }, { threshold: 0.25 }).observe(cv);
+    } else { visible = true; raf = requestAnimationFrame(frame); }
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { if (!raf) { ctx.clearRect(0, 0, W, H); REST = true; fn(ctx, W, H, 0); REST = false; } });
+  });
+})();
+</script>
 </body>
-
 </html>
