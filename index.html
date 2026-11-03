@@ -4,6 +4,15 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Kalyanasundharam Kathiresan</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230b0f15'/%3E%3Ctext x='50%25' y='54%25' text-anchor='middle' dominant-baseline='middle' font-family='monospace' font-size='34' font-weight='700' fill='%23f0a23b'%3EK%3C/text%3E%3Crect x='40' y='44' width='12' height='4' fill='%235ec9d5'/%3E%3C/svg%3E">
+<meta name="theme-color" content="#0b0f15">
+<link rel="canonical" href="https://kalvinci.github.io/">
+<meta property="og:type" content="profile">
+<meta property="og:title" content="Kalyanasundharam Kathiresan · Backend engineer">
+<meta property="og:description" content="Java microservices, API performance, and AI engineering tools. 6.5+ years across commerce, media, and enterprise SaaS.">
+<meta property="og:url" content="https://kalvinci.github.io/">
+<meta name="twitter:card" content="summary">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Kalyanasundharam Kathiresan","alternateName":"Kalvinci","jobTitle":"Software Engineer","url":"https://kalvinci.github.io/","sameAs":["https://www.linkedin.com/in/kalyanasundharamkathiresan","https://github.com/Kalvinci"],"alumniOf":"University of Virginia","knowsAbout":["Java","Quarkus","Spring Boot","AWS","Microservices","API performance","AI agents"]}</script>
 <meta name="description" content="Kalyanasundharam Kathiresan: backend engineer building Java microservices, performance improvements, and AI engineering tools.">
 <meta name="author" content="Kalyanasundharam Kathiresan">
 <meta name="keywords" content="Kalyanasundharam Kathiresan, Kalvinci, backend engineer, Java, Quarkus, Spring Boot, AWS, microservices">
@@ -148,7 +157,7 @@
   .edu p { margin: 2px 0 0; font-size: 14px; color: var(--muted); }
 
   /* Contact */
-  .contact { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 36px; display: grid; grid-template-columns: 1.2fr 1fr; gap: 32px; align-items: center; }
+  .contact { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 36px; display: grid; grid-template-columns: 1fr 1.2fr; gap: 32px; align-items: center; }
   .contact h2 { font-size: 28px; font-weight: 600; letter-spacing: -0.01em; margin-bottom: 8px; }
   .contact p { margin: 0; color: #c3ccd7; }
   .contact-list { display: grid; gap: 10px; }
@@ -184,11 +193,68 @@
   @media (prefers-reduced-motion: reduce) { .avatar::before { animation: none; } }
   @media (max-width: 420px) { .avatar { width: 76px; height: 76px; border-radius: 18px; } .avatar img { border-radius: 15px; } }
 
+
+  /* ---- Polish ---- */
+  ::selection { background: rgba(240,162,59,0.35); color: var(--text); }
+  section[id], main#top { scroll-margin-top: 72px; }
+  .skip { position: absolute; left: 12px; top: -48px; z-index: 50; background: var(--accent); color: #1a1205; font-family: var(--font-mono); font-size: 12px;
+          padding: 8px 12px; border-radius: 6px; text-decoration: none; transition: top .2s; }
+  .skip:focus { top: 12px; }
+  nav { transition: background .3s, box-shadow .3s; }
+  nav.scrolled { background: rgba(11,15,21,0.94); box-shadow: 0 8px 24px rgba(0,0,0,0.35); }
+  nav .wrap { transition: height .3s; }
+  nav.scrolled .wrap { height: 50px; }
+  .nav-links { align-items: center; }
+  .nav-links a { position: relative; padding: 4px 0; transition: color .2s; }
+  .nav-links a:not(.nav-cta)::after { content: ""; position: absolute; left: 0; right: 0; bottom: -2px; height: 1px; background: var(--accent);
+          transform: scaleX(0); transform-origin: left; transition: transform .25s; }
+  .nav-links a:not(.nav-cta):hover::after, .nav-links a.active::after { transform: scaleX(1); }
+  .nav-links a.active { color: var(--text); }
+  .nav-cta { border: 1px solid var(--accent); color: var(--accent) !important; border-radius: 6px; padding: 5px 11px !important; }
+  .nav-cta:hover { background: var(--accent); color: #1a1205 !important; }
+  .menu-btn { display: none; width: 38px; height: 34px; background: transparent; border: 1px solid var(--line); border-radius: 6px; cursor: pointer; padding: 0;
+              flex-direction: column; justify-content: center; align-items: center; gap: 5px; }
+  .menu-btn span { display: block; width: 16px; height: 1.5px; background: var(--text); transition: transform .25s; }
+  .menu-btn[aria-expanded="true"] span:first-child { transform: translateY(3.25px) rotate(45deg); }
+  .menu-btn[aria-expanded="true"] span:last-child { transform: translateY(-3.25px) rotate(-45deg); }
+  .email-row { display: flex; gap: 8px; min-width: 0; }
+  .email-row a { flex: 1; }
+  .copy { position: relative; width: 44px; flex: none; display: grid; place-items: center; color: var(--muted); background: var(--bg);
+          border: 1px solid var(--line); border-radius: 6px; padding: 0; cursor: pointer; transition: border-color .2s, color .2s; }
+  .copy svg { width: 17px; height: 17px; grid-area: 1 / 1; transition: transform .25s, opacity .2s; }
+  .copy .i-ok { opacity: 0; transform: scale(.5); }
+  .copy.ok .i-copy { opacity: 0; transform: scale(.5); }
+  .copy.ok .i-ok { opacity: 1; transform: none; }
+  .copy:hover { color: var(--text); }
+  .copy .tip { position: absolute; bottom: calc(100% + 8px); right: 0; white-space: nowrap; font-family: var(--font-mono); font-size: 11px;
+               background: var(--text); color: var(--bg); padding: 4px 8px; border-radius: 4px; opacity: 0; transform: translateY(4px);
+               transition: opacity .2s, transform .2s; pointer-events: none; }
+  .copy .tip.show { opacity: 1; transform: none; }
+  .copy:hover { border-color: var(--accent-2); }
+  .copy.ok { color: var(--accent-2); border-color: var(--accent-2); }
+  .foot { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; border-top: 1px solid var(--line); padding-top: 22px; }
+  .foot-links { display: flex; gap: 18px; }
+  .foot-links a { color: var(--muted); text-decoration: none; }
+  .foot-links a:hover { color: var(--text); }
+  .btn, .card, .chip { -webkit-tap-highlight-color: transparent; }
+  .btn { transition: border-color .2s, transform .2s, background .2s; }
+  .btn:hover { transform: translateY(-1px); }
+  .btn.primary:hover { background: #f4b25a; }
+  @media (max-width: 860px) {
+    .menu-btn { display: flex; }
+    .nav-links { display: none !important; position: absolute; top: 100%; left: 0; right: 0; flex-direction: column; align-items: stretch; gap: 0;
+                 background: var(--bg); border-bottom: 1px solid var(--line); padding: 8px 24px 16px; box-shadow: 0 16px 32px rgba(0,0,0,0.5); }
+    .nav-links.open { display: flex !important; }
+    .nav-links a { padding: 12px 0; font-size: 13px; border-bottom: 1px solid var(--line); }
+    .nav-links a::after { display: none; }
+    .nav-cta { margin-top: 12px; text-align: center; border-bottom: 1px solid var(--accent) !important; }
+  }
+
   /* ---- Motion ---- */
   #mesh { position: absolute; top: 0; left: 0; width: 100%; height: 760px; z-index: 0; pointer-events: none;
           -webkit-mask-image: linear-gradient(to bottom, #000 55%, transparent); mask-image: linear-gradient(to bottom, #000 55%, transparent); }
-  main, nav, footer { position: relative; z-index: 1; }
-  nav { z-index: 10; }
+  main, footer { position: relative; z-index: 1; }
+  nav { position: sticky; top: 0; z-index: 20; }
   .progress { position: absolute; left: 0; bottom: -1px; height: 2px; width: 100%; background: linear-gradient(90deg, var(--accent), var(--accent-2));
               transform-origin: 0 50%; transform: scaleX(0); }
   .dot { position: relative; }
@@ -246,15 +312,18 @@
 <body>
 <canvas id="mesh" aria-hidden="true"></canvas>
 
-<nav>
+<a class="skip" href="#top">Skip to content</a>
+<nav id="nav">
   <div class="wrap">
     <a class="brand" href="#top">kalvinci<span>_</span></a>
-    <div class="nav-links">
+    <button class="menu-btn" id="menu-btn" aria-expanded="false" aria-controls="nav-links" aria-label="Open menu"><span></span><span></span></button>
+    <div class="nav-links" id="nav-links">
       <a href="#work">Work</a>
       <a href="#under-the-hood">How it works</a>
       <a href="#experience">Experience</a>
       <a href="#skills">Skills</a>
       <a href="#contact">Contact</a>
+      <a class="nav-cta" href="resume.pdf">Resume</a>
     </div>
   </div>
   <div class="progress" id="progress"></div>
@@ -285,7 +354,6 @@
     <div class="panel impact" aria-label="Career impact">
       <div class="panel-head">
         <h2>Impact log</h2>
-        <span class="label">2018 → now</span>
       </div>
       <div class="grp">
         <div class="grp-head"><span>Apptium</span><span class="label">2025 – now</span></div>
@@ -480,7 +548,10 @@
         <p>Open to conversations about senior backend and platform engineering roles.</p>
       </div>
       <div class="contact-list">
-        <a href="mailto:kalyanasundharam.kathiresan@gmail.com"><span class="k">email</span><span>kalyanasundharam.kathiresan@gmail.com</span></a>
+        <div class="email-row">
+          <a href="mailto:kalyanasundharam.kathiresan@gmail.com"><span class="k">email</span><span>kalyanasundharam.kathiresan@gmail.com</span></a>
+          <button class="copy" id="copy-email" type="button" data-email="kalyanasundharam.kathiresan@gmail.com" aria-label="Copy email address" title="Copy email address"><svg class="i-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></svg><svg class="i-ok" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span class="tip" role="status" aria-live="polite"></span></button>
+        </div>
         <a href="https://www.linkedin.com/in/kalyanasundharamkathiresan"><span class="k">linkedin</span><span>/in/kalyanasundharamkathiresan</span></a>
         <a href="https://github.com/Kalvinci"><span class="k">github</span><span>/Kalvinci</span></a>
       </div>
@@ -490,7 +561,10 @@
 </main>
 
 <footer>
-  <div class="wrap">© 2026 Kalyanasundharam Kathiresan · Northern Virginia</div>
+  <div class="wrap foot">
+    <span>© 2026 Kalyanasundharam Kathiresan · Northern Virginia</span>
+    <span class="foot-links"><a href="https://github.com/Kalvinci">GitHub</a><a href="https://www.linkedin.com/in/kalyanasundharamkathiresan">LinkedIn</a><a href="#top">Back to top ↑</a></span>
+  </div>
 </footer>
 
 <script>
@@ -850,6 +924,61 @@
       }, { threshold: 0.25 }).observe(cv);
     } else { visible = true; raf = requestAnimationFrame(frame); }
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { if (!raf) { ctx.clearRect(0, 0, W, H); REST = true; fn(ctx, W, H, 0); REST = false; } });
+  });
+})();
+</script>
+<script>
+(function () {
+  var nav = document.getElementById('nav');
+  function onScroll() { nav.classList.toggle('scrolled', scrollY > 8); }
+  addEventListener('scroll', onScroll, { passive: true }); onScroll();
+
+  // Mobile menu
+  var btn = document.getElementById('menu-btn'), links = document.getElementById('nav-links');
+  function setMenu(open) { links.classList.toggle('open', open); btn.setAttribute('aria-expanded', open); btn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu'); }
+  btn.addEventListener('click', function () { setMenu(!links.classList.contains('open')); });
+  links.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', function () { setMenu(false); }); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') setMenu(false); });
+
+  // Highlight the section in view
+  var map = {};
+  links.querySelectorAll('a[href^="#"]').forEach(function (a) { map[a.getAttribute('href').slice(1)] = a; });
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) {
+        if (e.isIntersecting && map[e.target.id]) {
+          Object.keys(map).forEach(function (k) { map[k].classList.toggle('active', k === e.target.id); });
+        }
+      });
+    }, { rootMargin: '-45% 0px -50% 0px' });
+    Object.keys(map).forEach(function (id) { var el = document.getElementById(id); if (el) io.observe(el); });
+  }
+
+  // Copy email: clipboard API, then a legacy fallback, then select the text so the visitor can copy it themselves
+  var copy = document.getElementById('copy-email');
+  var emailSpan = document.querySelector('.email-row a span:last-child');
+  var tip = copy.querySelector('.tip');
+  function flash(label, ok) {
+    tip.textContent = label; tip.classList.add('show'); copy.classList.toggle('ok', ok);
+    clearTimeout(copy._t); copy._t = setTimeout(function () { tip.classList.remove('show'); copy.classList.remove('ok'); }, 2200);
+  }
+  function legacyCopy(text) {
+    try {
+      var ta = document.createElement('textarea'); ta.value = text; ta.setAttribute('readonly', '');
+      ta.style.position = 'fixed'; ta.style.opacity = '0'; document.body.appendChild(ta); ta.select();
+      var ok = document.execCommand('copy'); document.body.removeChild(ta); return ok;
+    } catch (e) { return false; }
+  }
+  function selectEmail() {
+    try { var r = document.createRange(); r.selectNodeContents(emailSpan); var sel = getSelection(); sel.removeAllRanges(); sel.addRange(r); } catch (e) {}
+    var mac = /Mac|iPhone|iPad/.test(navigator.platform || navigator.userAgent);
+    flash(mac ? 'Press ⌘C' : 'Press Ctrl+C', false);
+  }
+  copy.addEventListener('click', function () {
+    var email = copy.getAttribute('data-email');
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(email).then(function () { flash('Copied', true); }, function () { legacyCopy(email) ? flash('Copied', true) : selectEmail(); });
+    } else { legacyCopy(email) ? flash('Copied', true) : selectEmail(); }
   });
 })();
 </script>
