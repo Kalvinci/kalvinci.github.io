@@ -8,12 +8,12 @@
 <meta name="theme-color" content="#0b0f15">
 <link rel="canonical" href="https://kalvinci.github.io/">
 <meta property="og:type" content="profile">
-<meta property="og:title" content="Kalyanasundharam Kathiresan · Backend engineer">
-<meta property="og:description" content="Java microservices, API performance, and AI engineering tools. 6.5+ years across commerce, media, and enterprise SaaS.">
+<meta property="og:title" content="Kalyanasundharam Kathiresan · Software engineer, systems and AI tooling">
+<meta property="og:description" content="I make systems fast and teams faster: Java microservices, API performance, and AI agents. 6.5+ years across commerce, media, and enterprise SaaS.">
 <meta property="og:url" content="https://kalvinci.github.io/">
 <meta name="twitter:card" content="summary">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Kalyanasundharam Kathiresan","alternateName":"Kalvinci","jobTitle":"Software Engineer","url":"https://kalvinci.github.io/","sameAs":["https://www.linkedin.com/in/kalyanasundharamkathiresan","https://github.com/Kalvinci"],"alumniOf":"University of Virginia","knowsAbout":["Java","Quarkus","Spring Boot","AWS","Microservices","API performance","AI agents"]}</script>
-<meta name="description" content="Kalyanasundharam Kathiresan: backend engineer building Java microservices, performance improvements, and AI engineering tools.">
+<meta name="description" content="Kalyanasundharam Kathiresan: software engineer building Java microservices, performance improvements, and AI engineering tools.">
 <meta name="author" content="Kalyanasundharam Kathiresan">
 <meta name="keywords" content="Kalyanasundharam Kathiresan, Kalvinci, backend engineer, Java, Quarkus, Spring Boot, AWS, microservices">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -255,12 +255,12 @@
 
   /* ---- v12: command menu, skill highlighting, timeline rail, print ---- */
   .log { position: relative; }
-  .log::before, .log .rail { content: ""; position: absolute; left: 200px; top: 8px; bottom: 8px; width: 1px; background: var(--line); }
+  .log::before, .log .rail { content: ""; position: absolute; left: 201px; top: 8px; bottom: 8px; width: 2px; margin-left: -1px; border-radius: 2px; background: var(--line); }
   .log .rail { background: linear-gradient(var(--accent-2), var(--accent)); transform-origin: top; transform: scaleY(var(--fill, 0)); transition: transform .15s linear; }
   .entry { position: relative; }
-  .entry::before { content: ""; position: absolute; left: 196px; top: 30px; width: 9px; height: 9px; border-radius: 50%; background: var(--bg);
+  .entry::before { content: ""; position: absolute; left: 201px; top: var(--dot-y, 38px); width: 12px; height: 12px; margin: -6px 0 0 -6px; box-sizing: border-box; border-radius: 50%; background: var(--bg);
                    border: 1.5px solid var(--line2, #2a3a4e); transition: border-color .3s, background .3s; }
-  .entry:first-child::before { top: 10px; }
+
   .entry.lit::before { border-color: var(--accent); background: var(--accent); box-shadow: 0 0 0 4px rgba(240,162,59,0.15); }
   @media (max-width: 860px) {
     .log::before, .log .rail, .entry::before { display: none; }
@@ -394,6 +394,26 @@
   #work .trio .card { gap: 12px; }
   @media (max-width: 960px) { #work .case { grid-template-columns: minmax(0, 1fr); } #work .stat .n { white-space: normal; } }
 
+
+  /* Earlier projects (in Work) and Education (in Experience) */
+  .earlier { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  .mini-s { margin-top: auto; padding-top: 4px; }
+  .mini { display: flex; flex-direction: column; gap: 6px; padding: 18px 20px; border: 1px solid var(--line); border-radius: 12px; background: var(--panel); text-decoration: none;
+          transition: border-color .2s, transform .2s; }
+  .mini:hover { border-color: #33465e; transform: translateY(-2px); }
+  .mini-t { font-weight: 600; font-size: 16px; color: var(--text); }
+  .mini-t span { color: var(--accent); }
+  .mini-d { font-size: 14px; color: var(--muted); line-height: 1.5; }
+  .mini-s { font-family: var(--font-mono); font-size: 11px; color: var(--muted); }
+  #experience .sub { margin-top: 48px; }
+  .edu-list { display: grid; }
+  .edu-row { display: grid; grid-template-columns: 170px 1fr; column-gap: 60px; padding: 14px 0; border-bottom: 1px solid var(--line); }
+  .edu-row:last-child { border-bottom: 0; }
+  .edu-row .when { font-family: var(--font-mono); font-size: 12px; color: var(--muted); padding-top: 3px; }
+  .edu-row h4 { margin: 0; font-size: 16px; font-weight: 600; }
+  .edu-row p { margin: 2px 0 0; font-size: 14px; color: var(--muted); }
+  @media (max-width: 860px) { .earlier { grid-template-columns: minmax(0, 1fr); } .edu-row { grid-template-columns: 1fr; row-gap: 4px; } }
+
   /* ---- Motion ---- */
   #mesh { position: absolute; top: 0; left: 0; width: 100%; height: 760px; z-index: 0; pointer-events: none;
           -webkit-mask-image: linear-gradient(to bottom, #000 55%, transparent); mask-image: linear-gradient(to bottom, #000 55%, transparent); }
@@ -421,6 +441,7 @@
   .reveal.pending { transform: translateY(18px); }
   .entry h3 { transition: color .2s; }
   .entry:hover h3 { color: var(--accent); }
+
   @media (prefers-reduced-motion: reduce) {
     .dot::after, .cursor, .impact::before { animation: none; }
     .impact .row, .impact .grp-head { animation: none; }
@@ -463,6 +484,8 @@
       <a href="#work">Work</a>
       <a href="#experience">Experience</a>
       <a href="#skills">Skills</a>
+      <a href="#projects">Projects</a>
+      <a href="#education">Education</a>
       <a href="#contact">Contact</a>
       <a class="nav-cta" href="resume.pdf" target="_blank" rel="noopener noreferrer">Resume</a>
     </div>
@@ -482,7 +505,7 @@
         </div>
       </div>
       <h1>Kalyanasundharam Kathiresan<br><span class="alt grad" id="scramble">Backend engineer.</span><span class="cursor" aria-hidden="true"></span></h1>
-      <p class="lede">I build and modernize Java microservices, make slow APIs fast, and write the AI tools that help engineering teams move quicker. 6.5+ years across commerce, media, and enterprise SaaS.</p>
+      <p class="lede">Software engineer working across backend systems and AI tooling. I modernize Java microservices, make slow APIs fast, and build the AI agents engineering teams use every day. 6.5+ years across commerce, media, and enterprise SaaS.</p>
       <div class="links">
         <a class="btn primary" href="resume.pdf" target="_blank" rel="noopener noreferrer">Resume (PDF)</a>
         <a class="btn" href="https://www.linkedin.com/in/kalyanasundharamkathiresan" target="_blank" rel="noopener noreferrer">
@@ -676,7 +699,7 @@
 
   <section>
     <div class="two">
-      <div>
+      <div id="projects">
         <div class="sec-head"><span class="label">04</span><h2>Earlier projects</h2></div>
         <ul class="plist">
           <li><a href="https://github.com/Kalvinci/CS6888_Project" target="_blank" rel="noopener noreferrer">Fault localization in NoSQL queries ↗</a><p>Row-based dynamic slicing and delta debugging for MongoDB queries, from an IEEE paper. Python.</p></li>
@@ -685,7 +708,7 @@
           <li><a href="https://github.com/Kalvinci/onsocio" target="_blank" rel="noopener noreferrer">Interests from tweets ↗</a><p>Topic and sentiment classifiers over a user's tweets. Python, scikit-learn, Flask.</p></li>
         </ul>
       </div>
-      <div>
+      <div id="education">
         <div class="sec-head"><span class="label">05</span><h2>Education</h2></div>
         <div class="edu">
           <div><h3>University of Virginia</h3><p>Master of Computer Science · 2021–2022</p></div>
@@ -748,7 +771,7 @@
 
   if (reduce) return;
 
-  // Scramble "Backend engineer." into place
+  // Scramble the tagline into place
   var el = document.getElementById('scramble'), target = el.textContent, glyphs = '01{}<>/#_=+*';
   var frame = 0, total = 28;
   (function tick() {
@@ -1116,16 +1139,13 @@
   // Highlight the section in view
   var map = {};
   links.querySelectorAll('a[href^="#"]').forEach(function (a) { map[a.getAttribute('href').slice(1)] = a; });
-  if ('IntersectionObserver' in window) {
-    var io = new IntersectionObserver(function (es) {
-      es.forEach(function (e) {
-        if (e.isIntersecting && map[e.target.id]) {
-          Object.keys(map).forEach(function (k) { map[k].classList.toggle('active', k === e.target.id); });
-        }
-      });
-    }, { rootMargin: '-45% 0px -50% 0px' });
-    Object.keys(map).forEach(function (id) { var el = document.getElementById(id); if (el) io.observe(el); });
+  function spy() {
+    var line = innerHeight * 0.45, any = false, hits = {};
+    if (innerHeight + scrollY >= document.documentElement.scrollHeight - 4) { hits.contact = 1; any = true; Object.keys(map).forEach(function (k) { map[k].classList.toggle('active', !!hits[k]); }); return; }
+    Object.keys(map).forEach(function (id) { var el = document.getElementById(id); if (!el) return; var r = el.getBoundingClientRect(); if (r.top <= line && r.bottom > line) { hits[id] = 1; any = true; } });
+    if (any) Object.keys(map).forEach(function (k) { map[k].classList.toggle('active', !!hits[k]); });
   }
+  addEventListener('scroll', spy, { passive: true }); addEventListener('resize', spy); spy();
 
   // Copy email: clipboard API, then a legacy fallback, then select the text so the visitor can copy it themselves
   var copy = document.getElementById('copy-email');
@@ -1166,6 +1186,15 @@
     entries.forEach(function (en) { en.classList.toggle('lit', en.getBoundingClientRect().top + 30 < mid); });
   }
   addEventListener('scroll', rail, { passive: true }); addEventListener('resize', rail); rail();
+})();
+</script>
+<script>
+(function () {
+  function place() { document.querySelectorAll('.log .entry').forEach(function (en) {
+    var h = en.querySelector('h3'); if (!h) return;
+    en.style.setProperty('--dot-y', (h.getBoundingClientRect().top - en.getBoundingClientRect().top + h.offsetHeight / 2) + 'px');
+  }); }
+  place(); addEventListener('resize', place); if (document.fonts && document.fonts.ready) document.fonts.ready.then(place);
 })();
 </script>
 </body>
