@@ -250,6 +250,150 @@
     .nav-cta { margin-top: 12px; text-align: center; border-bottom: 1px solid var(--accent) !important; }
   }
 
+
+
+
+  /* ---- v12: command menu, skill highlighting, timeline rail, print ---- */
+  .log { position: relative; }
+  .log::before, .log .rail { content: ""; position: absolute; left: 200px; top: 8px; bottom: 8px; width: 1px; background: var(--line); }
+  .log .rail { background: linear-gradient(var(--accent-2), var(--accent)); transform-origin: top; transform: scaleY(var(--fill, 0)); transition: transform .15s linear; }
+  .entry { position: relative; }
+  .entry::before { content: ""; position: absolute; left: 196px; top: 30px; width: 9px; height: 9px; border-radius: 50%; background: var(--bg);
+                   border: 1.5px solid var(--line2, #2a3a4e); transition: border-color .3s, background .3s; }
+  .entry:first-child::before { top: 10px; }
+  .entry.lit::before { border-color: var(--accent); background: var(--accent); box-shadow: 0 0 0 4px rgba(240,162,59,0.15); }
+  @media (max-width: 860px) {
+    .log::before, .log .rail, .entry::before { display: none; }
+  }
+  @media print {
+    #mesh, nav, .skip, .links, .copy, .case-ill, footer .foot-links, .avatar::before { display: none !important; }
+    :root { --bg: #fff; --panel: #fff; --text: #111; --muted: #555; --line: #ddd; --accent: #a35f00; --accent-2: #0b6f7a; color-scheme: light; }
+    body { background: #fff; font-size: 11pt; }
+    .hero, .work, .two, .contact, .skills { grid-template-columns: 1fr !important; }
+    .card, .ill, .entry, .panel { break-inside: avoid; box-shadow: none !important; }
+    .lede, .card p, .entry ul, .contact p, .row .d { color: #222 !important; }
+    a[href^="http"]::after { content: " (" attr(href) ")"; font-size: 9pt; color: #555; }
+    .contact-list a::after, .btn::after, .plist a::after { content: none !important; }
+    section { padding-bottom: 24px; }
+  }
+
+  .hint { font-family: var(--font-mono); font-size: 11px; color: var(--accent-2); white-space: nowrap; }
+
+
+  /* ================= UI pass: depth, rhythm, hierarchy ================= */
+  html, body { overflow-x: clip; }
+  body::after { content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 70; opacity: .035; mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+  .hero { position: relative; }
+  .hero::before { content: ""; position: absolute; top: -120px; bottom: -40px; left: 50%; width: 100vw; transform: translateX(-50%); z-index: -1; pointer-events: none;
+    background:
+      radial-gradient(600px 320px at 18% 30%, rgba(240,162,59,0.10), transparent 70%),
+      radial-gradient(520px 300px at 82% 40%, rgba(94,201,213,0.08), transparent 70%),
+      radial-gradient(circle at 1px 1px, rgba(138,151,168,0.16) 1px, transparent 0) 0 0 / 28px 28px;
+    -webkit-mask-image: radial-gradient(ellipse 70% 75% at 50% 35%, #000 35%, transparent 100%); mask-image: radial-gradient(ellipse 70% 75% at 50% 35%, #000 35%, transparent 100%); }
+  .grad { background: linear-gradient(100deg, #9fb0c3 10%, var(--accent-2) 55%, var(--accent) 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .hero h1 .alt.grad { color: transparent; }
+  .lede { font-size: 19px; line-height: 1.55; }
+
+  /* Section heads */
+  section { padding-bottom: 104px; }
+  .sec-head { border-bottom: 0; padding-bottom: 0; margin-bottom: 10px; align-items: center; position: relative; }
+  .sec-head > .label:first-child { color: var(--accent); border: 1px solid rgba(240,162,59,0.35); border-radius: 999px; padding: 3px 9px; font-size: 10px; }
+  .sec-head h2 { font-size: clamp(28px, 3.4vw, 40px); font-weight: 650; letter-spacing: -0.025em; }
+  .sec-lede { margin: 0 0 32px; color: var(--muted); font-size: 17px; max-width: 40em; }
+  .two .sec-head h2 { font-size: clamp(22px, 2.4vw, 28px); }
+  .two .sec-head { margin-bottom: 22px; }
+
+  /* Surfaces */
+  .card, .ill, .panel, .contact { background: linear-gradient(180deg, rgba(255,255,255,0.025), rgba(255,255,255,0) 40%), var(--panel);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.04), 0 1px 2px rgba(0,0,0,0.3); border-radius: 14px; }
+  .ill canvas { border-radius: 10px; }
+
+  /* Bento work grid */
+  .work { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+  .card { padding: 26px; gap: 12px; }
+  .card.feature { grid-column: span 2; }
+  .card h3 { font-size: 19px; letter-spacing: -0.01em; }
+  .card p { line-height: 1.6; }
+  .stat { display: grid; gap: 2px; padding-bottom: 14px; margin-bottom: 4px; border-bottom: 1px dashed var(--line); }
+  .stat .n { font-family: var(--font-mono); font-weight: 600; font-size: clamp(30px, 3.4vw, 44px); line-height: 1.1; letter-spacing: -0.03em;
+             color: var(--text); font-variant-numeric: tabular-nums; }
+  .card.feature .stat .n { font-size: clamp(40px, 5vw, 64px); background: linear-gradient(100deg, var(--accent-2), var(--accent)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .stat .n { overflow-wrap: anywhere; }
+  .card.wide-text .stat .n { font-size: clamp(24px, 2.6vw, 32px); -webkit-background-clip: text; background-clip: text; }
+  .stat .cap { font-size: 13px; color: var(--muted); }
+  .card:hover { border-color: #33465e; box-shadow: inset 0 1px 0 rgba(255,255,255,0.05), 0 18px 40px rgba(0,0,0,0.35); }
+
+  /* Under the hood as a full-bleed band */
+  #under-the-hood { padding-top: 88px; margin-bottom: 104px; padding-bottom: 88px;
+    background: #0d131b; box-shadow: 0 0 0 100vmax #0d131b; clip-path: inset(0 -100vmax);
+    border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  #under-the-hood .ill { background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0) 40%), var(--panel); }
+
+  /* Experience polish */
+  .entry { padding: 30px 0; column-gap: 60px; }
+  .entry h3 { font-size: 21px; letter-spacing: -0.01em; }
+
+  /* Skills */
+  .skills { gap: 28px 24px; }
+  .chip { border-radius: 999px; padding: 4px 12px; }
+
+  /* Contact as the closing statement */
+  .contact { padding: 48px; position: relative; overflow: hidden; border-color: #2a3a4e; }
+  .contact::before { content: ""; position: absolute; inset: auto -20% -60% -20%; height: 120%; pointer-events: none;
+    background: radial-gradient(closest-side, rgba(240,162,59,0.10), transparent), radial-gradient(closest-side at 70% 50%, rgba(94,201,213,0.08), transparent); }
+  .contact > * { position: relative; }
+  .contact h2 { font-size: clamp(30px, 3.6vw, 44px); letter-spacing: -0.025em; line-height: 1.1; margin-bottom: 14px; }
+  .contact p { font-size: 17px; color: var(--muted); }
+
+  @media (max-width: 960px) { .work { grid-template-columns: minmax(0, 1fr); } .card.feature { grid-column: auto; } }
+  @media (max-width: 640px) { .work { grid-template-columns: 1fr; } .card.feature { grid-column: auto; } .contact { padding: 28px; } section { padding-bottom: 72px; } #under-the-hood { padding: 56px 0; margin-bottom: 72px; } }
+  @media print { body::after, .hero::before { display: none !important; } #under-the-hood { box-shadow: none; clip-path: none; } .grad { color: #111 !important; background: none !important; } }
+
+
+  /* Selected work: case studies with their diagrams */
+  .cases { display: grid; gap: 18px; }
+  .case { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); gap: 32px; align-items: center; padding: 28px;
+          border: 1px solid var(--line); border-radius: 14px;
+          background: linear-gradient(180deg, rgba(255,255,255,0.025), rgba(255,255,255,0) 40%), var(--panel);
+          box-shadow: inset 0 1px 0 rgba(255,255,255,0.04), 0 1px 2px rgba(0,0,0,0.3); }
+  .case:nth-child(even) .case-text { order: 2; }
+  .case-text { display: flex; flex-direction: column; gap: 12px; }
+  .case-text h3 { font-size: 21px; font-weight: 600; letter-spacing: -0.01em; }
+  .case-text p { margin: 0; color: #c3ccd7; font-size: 15px; line-height: 1.6; }
+  .case-text .stat .n { font-size: clamp(36px, 4.4vw, 56px); background: linear-gradient(100deg, var(--accent-2), var(--accent)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .case-ill { margin: 0; display: grid; gap: 8px; }
+  .case-ill canvas { width: 100%; height: 240px; display: block; background: var(--bg); border: 1px solid var(--line); border-radius: 10px; }
+  .case-ill figcaption { font-family: var(--font-mono); font-size: 11px; color: var(--muted); }
+  .trio { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; margin: 18px 0; }
+  .trio .card .stat .n { font-size: clamp(28px, 3vw, 38px); background: linear-gradient(100deg, var(--accent-2), var(--accent)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  @media (max-width: 960px) {
+    .case { grid-template-columns: minmax(0, 1fr); gap: 20px; padding: 22px; }
+    .case:nth-child(even) .case-text { order: 0; }
+    .trio { grid-template-columns: minmax(0, 1fr); }
+  }
+
+
+  /* Selected work: one consistent system */
+  .sub { font-family: var(--font-mono); font-size: 12px; font-weight: 500; color: var(--muted); text-transform: uppercase; letter-spacing: .08em;
+         margin: 8px 0 16px; display: flex; align-items: center; gap: 12px; }
+  .sub::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+  .trio + * , .cases + .sub { margin-top: 40px; }
+  #work .case, #work .card { padding: 28px; }
+  #work .case:nth-child(even) .case-text { order: 0; }
+  #work .case { grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); align-items: stretch; }
+  #work .case-text { justify-content: center; }
+  #work .stat { min-height: 0; }
+  #work .stat .n { font-size: clamp(30px, 3.2vw, 42px) !important; line-height: 1.1; white-space: nowrap;
+                   background: linear-gradient(100deg, var(--accent-2), var(--accent)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  #work h3:not(.sub) { font-size: 20px; font-weight: 600; letter-spacing: -0.01em; }
+  #work .case-text p, #work .card p { font-size: 15px; line-height: 1.6; color: #c3ccd7; }
+  #work .case-ill { align-content: center; }
+  #work .case-ill canvas { height: 250px; }
+  #work .trio { margin: 0; }
+  #work .trio .card { gap: 12px; }
+  @media (max-width: 960px) { #work .case { grid-template-columns: minmax(0, 1fr); } #work .stat .n { white-space: normal; } }
+
   /* ---- Motion ---- */
   #mesh { position: absolute; top: 0; left: 0; width: 100%; height: 760px; z-index: 0; pointer-events: none;
           -webkit-mask-image: linear-gradient(to bottom, #000 55%, transparent); mask-image: linear-gradient(to bottom, #000 55%, transparent); }
@@ -275,8 +419,6 @@
   .card:hover::before { opacity: 1; }
   .reveal { transition: transform .7s cubic-bezier(.2,.7,.2,1); }
   .reveal.pending { transform: translateY(18px); }
-  .chip { transition: border-color .2s, color .2s, transform .2s; }
-  .chip:hover { border-color: var(--accent-2); transform: translateY(-1px); }
   .entry h3 { transition: color .2s; }
   .entry:hover h3 { color: var(--accent); }
   @media (prefers-reduced-motion: reduce) {
@@ -319,11 +461,10 @@
     <button class="menu-btn" id="menu-btn" aria-expanded="false" aria-controls="nav-links" aria-label="Open menu"><span></span><span></span></button>
     <div class="nav-links" id="nav-links">
       <a href="#work">Work</a>
-      <a href="#under-the-hood">How it works</a>
       <a href="#experience">Experience</a>
       <a href="#skills">Skills</a>
       <a href="#contact">Contact</a>
-      <a class="nav-cta" href="resume.pdf">Resume</a>
+      <a class="nav-cta" href="resume.pdf" target="_blank" rel="noopener noreferrer">Resume</a>
     </div>
   </div>
   <div class="progress" id="progress"></div>
@@ -340,13 +481,13 @@
           <span class="label">Northern Virginia · Java · AWS · AI tooling</span>
         </div>
       </div>
-      <h1>Kalyanasundharam Kathiresan<br><span class="alt" id="scramble">Backend engineer.</span><span class="cursor" aria-hidden="true"></span></h1>
+      <h1>Kalyanasundharam Kathiresan<br><span class="alt grad" id="scramble">Backend engineer.</span><span class="cursor" aria-hidden="true"></span></h1>
       <p class="lede">I build and modernize Java microservices, make slow APIs fast, and write the AI tools that help engineering teams move quicker. 6.5+ years across commerce, media, and enterprise SaaS.</p>
       <div class="links">
-        <a class="btn primary" href="resume.pdf">Resume (PDF)</a>
-        <a class="btn" href="https://www.linkedin.com/in/kalyanasundharamkathiresan">
+        <a class="btn primary" href="resume.pdf" target="_blank" rel="noopener noreferrer">Resume (PDF)</a>
+        <a class="btn" href="https://www.linkedin.com/in/kalyanasundharamkathiresan" target="_blank" rel="noopener noreferrer">
           <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-1 1.83-2.05 3.77-2.05C20.6 8.65 21 11.2 21 14.5V21h-4v-5.8c0-1.4-.03-3.2-1.95-3.2-1.95 0-2.25 1.52-2.25 3.1V21H9z"/></svg>LinkedIn</a>
-        <a class="btn" href="https://github.com/Kalvinci">
+        <a class="btn" href="https://github.com/Kalvinci" target="_blank" rel="noopener noreferrer">
           <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5a11.5 11.5 0 0 0-3.64 22.4c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.52-1.33-1.28-1.69-1.28-1.69-1.05-.71.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.42-2.7 5.4-5.26 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5z"/></svg>GitHub</a>
       </div>
     </div>
@@ -357,7 +498,7 @@
       </div>
       <div class="grp">
         <div class="grp-head"><span>Apptium</span><span class="label">2025 – now</span></div>
-        <div class="row"><span class="n">−67%</span><span class="d">API latency on core cart services, through caching, parallel calls, and removing a middleman service</span></div>
+        <div class="row"><span class="n">−67%</span><span class="d">API latency on core commerce services, through caching, parallel calls, and removing a middleman service</span></div>
         <div class="row"><span class="n">20 min</span><span class="d">Typical issue triage, down from 2–3 hours, with AI log analysis I built</span></div>
         <div class="row"><span class="n">5 teams</span><span class="d">~40 engineers adopted my AI story-grooming agent</span></div>
       </div>
@@ -377,95 +518,109 @@
 
   <section id="work">
     <div class="sec-head"><span class="label">01</span><h2>Selected work</h2></div>
-    <div class="work">
-      <article class="card">
-        <span class="label">Cart service · Apptium</span>
-        <h3>Cart service migration to Quarkus</h3>
-        <p>Moving the cart service from legacy Spring Boot to a reactive Quarkus service on AWS, while shipping new requirements to both systems and keeping them at feature parity.</p>
-        <div class="tags"><span class="tag">Quarkus</span><span class="tag">Mutiny</span><span class="tag">Redis</span><span class="tag">DocumentDB</span><span class="tag">Kinesis</span><span class="tag">GraphQL</span></div>
+    <p class="sec-lede">Problems I owned end to end, what changed because of them, and how each one works.</p>
+    <h3 class="sub">Systems I rebuilt</h3>
+    <div class="cases">
+      <article class="case">
+        <div class="case-text">
+          <div class="stat"><span class="n">−67%</span><span class="cap">p90 latency on tax calculation</span></div>
+          <span class="label">Apptium · commerce platform</span>
+          <h3>Tax calculation, rebuilt in-service</h3>
+          <p>Tax requests used to hop through another team's sunsetting middleman service. I cleared its bottlenecks and moved the logic in-house, so the service now calls the third-party tax API directly.</p>
+          <div class="tags"><span class="tag">Java</span><span class="tag">Quarkus</span><span class="tag">REST</span></div>
+        </div>
+        <figure class="case-ill"><canvas data-ill="tax" aria-label="Animated diagram: tax requests used to hop through a middleman service; now the service calls the tax API directly, cutting latency 67%"></canvas><figcaption>Before and after, request path</figcaption></figure>
       </article>
-      <article class="card">
-        <span class="label">Cart service · Apptium</span>
-        <h3>Tax calculation, rebuilt in-service</h3>
-        <p>Removed the cart's dependency on a sunsetting middleman service owned by another team, cleared its bottlenecks, and brought the logic into the cart service with direct calls to the third-party tax API.</p>
-        <span class="result">Latency cut 67%</span>
+      <article class="case">
+        <div class="case-text">
+          <div class="stat"><span class="n">−33 to 50%</span><span class="cap">p90 latency on core APIs</span></div>
+          <span class="label">Apptium · commerce platform</span>
+          <h3>Quarkus migration and faster APIs</h3>
+          <p>Migrating a core commerce service from legacy Spring Boot to reactive Quarkus on AWS, keeping both at feature parity. Upstream calls now run concurrently, and repeat lookups come from Redis.</p>
+          <div class="tags"><span class="tag">Quarkus</span><span class="tag">Mutiny</span><span class="tag">Redis</span><span class="tag">AWS</span></div>
+        </div>
+        <figure class="case-ill"><canvas data-ill="parallel" aria-label="Animated diagram: upstream calls that ran one after another now run in parallel, with one served from Redis cache"></canvas><figcaption>Sequential vs. parallel calls (illustrative timings)</figcaption></figure>
       </article>
-      <article class="card">
-        <span class="label">Internal tool · Python</span>
-        <h3>Code intelligence platform</h3>
-        <p>Indexes ~160 repos across 3 GitHub orgs and serves search, definitions, references, and call graphs through an API, CLI, browser UI, and an MCP server for Copilot. Used by executives and leads to trace designs and cross-team dependencies.</p>
-        <div class="tags"><span class="tag">tree-sitter</span><span class="tag">Zoekt</span><span class="tag">SQLite</span><span class="tag">MCP</span><span class="tag">Docker</span></div>
+      <article class="case">
+        <div class="case-text">
+          <div class="stat"><span class="n">1 → N</span><span class="cap">one edit fans out to every dependent record</span></div>
+          <span class="label">Brightspot · data model</span>
+          <h3>Cascading updates engine</h3>
+          <p>An edit to one record queues each dependent record in a graph-like data model. Worker threads drain the queue in parallel, and shared dependents are queued only once.</p>
+          <div class="tags"><span class="tag">Java</span><span class="tag">Multi-threading</span><span class="tag">Queues</span></div>
+        </div>
+        <figure class="case-ill"><canvas data-ill="cascade" aria-label="Animated diagram: an edit to one node enqueues its dependents, and three worker threads update them in parallel"></canvas><figcaption>Queue and worker threads</figcaption></figure>
       </article>
-      <article class="card">
-        <span class="label">AI agents</span>
-        <h3>Copilot agents for engineering teams</h3>
-        <p>A story-grooming agent that writes Jira stories from chat, used by 5 teams (~40 engineers), and agent skills that analyze Kibana logs to root-cause bugs and performance regressions.</p>
-        <span class="result">Triage 2–3 hours → ~20 minutes</span>
+      <article class="case">
+        <div class="case-text">
+          <div class="stat"><span class="n">10M+</span><span class="cap">articles and media migrated</span></div>
+          <span class="label">Brightspot · news agency</span>
+          <h3>10M+ article CMS migration</h3>
+          <p>Led a four-month, three-phase migration for a major news agency: articles, media, then press releases, from 10+ PostgreSQL tables and multiple GCS buckets.</p>
+          <div class="tags"><span class="tag">Java</span><span class="tag">JOOQ</span><span class="tag">PostgreSQL</span></div>
+        </div>
+        <figure class="case-ill"><canvas data-ill="migration" aria-label="Animated diagram: content flows from PostgreSQL tables and GCS buckets into Brightspot over three phases, reaching 10 million articles"></canvas><figcaption>Three migration phases</figcaption></figure>
       </article>
-      <article class="card">
-        <span class="label">Prototype · Google ADK</span>
-        <h3>Conversational ordering agent</h3>
-        <p>Prototyped and demoed an agent that lets retail and telesales agents place orders by chat. Another team adopted the concept and built it into a dedicated ordering channel.</p>
-        <div class="tags"><span class="tag">Google ADK</span><span class="tag">Python</span><span class="tag">LLM agents</span></div>
+      <article class="case">
+        <div class="case-text">
+          <div class="stat"><span class="n">4×</span><span class="cap">QA, Sales, and Customer Success efficiency</span></div>
+          <span class="label">DemandFarm · internal tool</span>
+          <h3>Demo builder</h3>
+          <p>Demo setup that three teams did by hand, task by task, became a single click.</p>
+          <div class="tags"><span class="tag">Salesforce</span><span class="tag">Apex</span><span class="tag">LWC</span></div>
+        </div>
+        <figure class="case-ill"><canvas data-ill="demo" aria-label="Animated diagram: manual demo setup completes tasks slowly one by one; the demo builder completes the same tasks four times faster"></canvas><figcaption>Manual setup vs. demo builder</figcaption></figure>
       </article>
-      <article class="card">
-        <span class="label">Brightspot</span>
-        <h3>10M+ article CMS migration</h3>
-        <p>Led a four-month, multi-phase migration for a major news agency, moving articles, press releases, images, audio, and video from 10+ PostgreSQL tables and multiple GCS buckets.</p>
-        <div class="tags"><span class="tag">Java</span><span class="tag">JOOQ</span><span class="tag">PostgreSQL</span><span class="tag">GCS</span></div>
+      <article class="case">
+        <div class="case-text">
+          <div class="stat"><span class="n">−35%</span><span class="cap">page load times</span></div>
+          <span class="label">DemandFarm · front end</span>
+          <h3>Reusable component library</h3>
+          <p>One shared set of Lightning Web Components built every page and standardized the design across the product.</p>
+          <div class="tags"><span class="tag">LWC</span><span class="tag">SLDS</span><span class="tag">Aura</span></div>
+        </div>
+        <figure class="case-ill"><canvas data-ill="components" aria-label="Animated diagram: shared components assemble into several pages while page load time drops 35%"></canvas><figcaption>Shared components assembling pages</figcaption></figure>
       </article>
     </div>
-  </section>
-
-  <section id="under-the-hood">
-    <div class="sec-head"><span class="label">02</span><h2>Under the hood</h2></div>
-    <p class="hood-lede">How some of that work actually runs, one diagram per problem.</p>
-    <div class="hood">
-      <figure class="ill">
-        <figcaption><span class="label">Apptium · tax calculation</span><h3>Cutting out the middleman</h3></figcaption>
-        <canvas data-ill="tax" aria-label="Animated diagram: tax requests used to hop through a middleman service; now the cart calls the tax API directly, cutting latency 67%"></canvas>
-        <p>Tax requests used to hop through another team's sunsetting service. I moved that logic into the cart service, which now calls the tax API directly.</p>
-      </figure>
-      <figure class="ill">
-        <figcaption><span class="label">Apptium · cart APIs</span><h3>Parallel calls and a cache</h3></figcaption>
-        <canvas data-ill="parallel" aria-label="Animated diagram: upstream calls that ran one after another now run in parallel, with one served from Redis cache"></canvas>
-        <p>Upstream calls that ran one after another now run concurrently, and repeat lookups come from Redis. Illustrative timings.</p>
-      </figure>
-      <figure class="ill">
-        <figcaption><span class="label">Brightspot · data model</span><h3>Cascading updates engine</h3></figcaption>
-        <canvas data-ill="cascade" aria-label="Animated diagram: an edit to one node enqueues its dependents, and three worker threads update them in parallel"></canvas>
-        <p>An edit to one record queues every dependent record in the graph. Worker threads drain the queue in parallel, and shared dependents are queued only once.</p>
-      </figure>
-      <figure class="ill">
-        <figcaption><span class="label">Brightspot · news agency</span><h3>10M+ article migration</h3></figcaption>
-        <canvas data-ill="migration" aria-label="Animated diagram: content flows from PostgreSQL tables and GCS buckets into Brightspot over three phases, reaching 10 million articles"></canvas>
-        <p>Four months, three phases: articles, media, then press releases, pulled from 10+ PostgreSQL tables and GCS buckets.</p>
-      </figure>
-      <figure class="ill">
-        <figcaption><span class="label">DemandFarm · internal tool</span><h3>Demo builder</h3></figcaption>
-        <canvas data-ill="demo" aria-label="Animated diagram: manual demo setup completes tasks slowly one by one; the demo builder completes the same tasks four times faster"></canvas>
-        <p>Demo setup that QA, Sales, and Customer Success did by hand became one click, making those teams about 4× more efficient.</p>
-      </figure>
-      <figure class="ill">
-        <figcaption><span class="label">DemandFarm · front end</span><h3>Reusable component library</h3></figcaption>
-        <canvas data-ill="components" aria-label="Animated diagram: shared components assemble into several pages while page load time drops 35%"></canvas>
-        <p>One shared set of Lightning Web Components built every page, standardizing the design and cutting load times 35%.</p>
-      </figure>
+    <h3 class="sub">AI tools I built</h3>
+    <div class="trio">
+      <article class="card">
+        <div class="stat"><span class="n">20 min</span><span class="cap">typical triage, down from 2–3 hours</span></div>
+        <span class="label">Apptium · AI agents</span>
+        <h3>Copilot agents for engineering teams</h3>
+        <p>A story-grooming agent that writes Jira stories from chat, used by 5 teams (~40 engineers), plus agent skills that analyze Kibana logs to root-cause bugs.</p>
+        <div class="tags"><span class="tag">Copilot</span><span class="tag">Kibana</span><span class="tag">Jira</span></div>
+      </article>
+      <article class="card">
+        <div class="stat"><span class="n">~160</span><span class="cap">repos indexed across 3 GitHub orgs</span></div>
+        <span class="label">Apptium · internal tool</span>
+        <h3>Code intelligence platform</h3>
+        <p>Search, definitions, references, and call graphs through an API, CLI, browser UI, and an MCP server. Used by executives and leads to trace cross-team dependencies.</p>
+        <div class="tags"><span class="tag">Python</span><span class="tag">tree-sitter</span><span class="tag">MCP</span></div>
+      </article>
+      <article class="card">
+        <div class="stat"><span class="n">Adopted</span><span class="cap">built into production by another team</span></div>
+        <span class="label">Apptium · prototype</span>
+        <h3>Conversational ordering agent</h3>
+        <p>An agent that lets retail and telesales agents place orders by chat. Another team took the concept and built it into a dedicated ordering channel.</p>
+        <div class="tags"><span class="tag">Google ADK</span><span class="tag">Python</span><span class="tag">LLMs</span></div>
+      </article>
     </div>
   </section>
 
   <section id="experience">
-    <div class="sec-head"><span class="label">03</span><h2>Experience</h2></div>
-    <div class="log">
+    <div class="sec-head"><span class="label">02</span><h2>Experience</h2></div>
+    <p class="sec-lede">Six and a half years across commerce, media, and enterprise SaaS.</p>
+    <div class="log"><span class="rail" aria-hidden="true"></span>
       <div class="entry">
         <div class="when"><span class="now">Mar 2025 – now</span><br>Reston, VA</div>
         <div>
           <h3>Apptium Technologies</h3>
           <div class="role">Software Engineer 2 · embedded with Comcast's Xfinity Mobile team</div>
           <ul>
-            <li>Migrating the Xfinity Mobile cart service from Spring Boot to reactive Quarkus on AWS.</li>
-            <li>Cut p90 latency by <b>33–67%</b> on core cart APIs with parallel upstream calls, Redis caching, and refactoring.</li>
-            <li>Authored <b>6 design documents</b>, defined cart API contracts for dependent teams, and wrote ~30 stories across 5 epics.</li>
+            <li>Migrating a core Xfinity Mobile commerce service from Spring Boot to reactive Quarkus on AWS.</li>
+            <li>Cut p90 latency by <b>33–67%</b> on core APIs with parallel upstream calls, Redis caching, and refactoring.</li>
+            <li>Authored <b>6 design documents</b>, defined API contracts for dependent teams, and wrote ~30 stories across 5 epics.</li>
             <li>Built AI tooling adopted beyond my team: a story-grooming agent, log-analysis skills, and a code intelligence platform.</li>
             <li>Backup scrum facilitator for the team.</li>
           </ul>
@@ -508,7 +663,7 @@
   </section>
 
   <section id="skills">
-    <div class="sec-head"><span class="label">04</span><h2>Skills</h2></div>
+    <div class="sec-head"><span class="label">03</span><h2>Skills</h2></div>
     <div class="skills">
       <div class="skill-group"><h3>Languages</h3><div class="chips"><span class="chip">Java</span><span class="chip">Python</span><span class="chip">SQL</span><span class="chip">JavaScript</span><span class="chip">TypeScript</span></div></div>
       <div class="skill-group"><h3>Backend</h3><div class="chips"><span class="chip">Quarkus</span><span class="chip">Spring Boot</span><span class="chip">SmallRye Mutiny</span><span class="chip">Spring Security</span><span class="chip">Hibernate</span><span class="chip">REST</span><span class="chip">GraphQL</span><span class="chip">OAuth2</span></div></div>
@@ -522,16 +677,16 @@
   <section>
     <div class="two">
       <div>
-        <div class="sec-head"><span class="label">05</span><h2>Earlier projects</h2></div>
+        <div class="sec-head"><span class="label">04</span><h2>Earlier projects</h2></div>
         <ul class="plist">
-          <li><a href="https://github.com/Kalvinci/CS6888_Project">Fault localization in NoSQL queries ↗</a><p>Row-based dynamic slicing and delta debugging for MongoDB queries, from an IEEE paper. Python.</p></li>
-          <li><a href="https://github.com/noble-8/browserFingerPrintSpoofing">Browser fingerprint spoofer ↗</a><p>Chrome extension that spoofs canvas fingerprints and user agents so trackers classify you as a Tor user. JavaScript.</p></li>
-          <li><a href="https://github.com/Kalvinci/Smart-Garden-Server">Smart garden over Discord ↗</a><p>Arduino sensors and actuators controlled through Discord slash commands. Node.js, MongoDB.</p></li>
-          <li><a href="https://github.com/Kalvinci/onsocio">Interests from tweets ↗</a><p>Topic and sentiment classifiers over a user's tweets. Python, scikit-learn, Flask.</p></li>
+          <li><a href="https://github.com/Kalvinci/CS6888_Project" target="_blank" rel="noopener noreferrer">Fault localization in NoSQL queries ↗</a><p>Row-based dynamic slicing and delta debugging for MongoDB queries, from an IEEE paper. Python.</p></li>
+          <li><a href="https://github.com/noble-8/browserFingerPrintSpoofing" target="_blank" rel="noopener noreferrer">Browser fingerprint spoofer ↗</a><p>Chrome extension that spoofs canvas fingerprints and user agents so trackers classify you as a Tor user. JavaScript.</p></li>
+          <li><a href="https://github.com/Kalvinci/Smart-Garden-Server" target="_blank" rel="noopener noreferrer">Smart garden over Discord ↗</a><p>Arduino sensors and actuators controlled through Discord slash commands. Node.js, MongoDB.</p></li>
+          <li><a href="https://github.com/Kalvinci/onsocio" target="_blank" rel="noopener noreferrer">Interests from tweets ↗</a><p>Topic and sentiment classifiers over a user's tweets. Python, scikit-learn, Flask.</p></li>
         </ul>
       </div>
       <div>
-        <div class="sec-head"><span class="label">06</span><h2>Education</h2></div>
+        <div class="sec-head"><span class="label">05</span><h2>Education</h2></div>
         <div class="edu">
           <div><h3>University of Virginia</h3><p>Master of Computer Science · 2021–2022</p></div>
           <div><h3>MGM's Jawaharlal Nehru Engineering College</h3><p>B.E., Computer Science and Engineering · 2014–2018</p></div>
@@ -544,7 +699,7 @@
   <section id="contact">
     <div class="contact">
       <div>
-        <h2>Let's talk.</h2>
+        <h2>Let's build something <span class="grad">fast</span>.</h2>
         <p>Open to conversations about senior backend and platform engineering roles.</p>
       </div>
       <div class="contact-list">
@@ -552,8 +707,8 @@
           <a href="mailto:kalyanasundharam.kathiresan@gmail.com"><span class="k">email</span><span>kalyanasundharam.kathiresan@gmail.com</span></a>
           <button class="copy" id="copy-email" type="button" data-email="kalyanasundharam.kathiresan@gmail.com" aria-label="Copy email address" title="Copy email address"><svg class="i-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></svg><svg class="i-ok" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span class="tip" role="status" aria-live="polite"></span></button>
         </div>
-        <a href="https://www.linkedin.com/in/kalyanasundharamkathiresan"><span class="k">linkedin</span><span>/in/kalyanasundharamkathiresan</span></a>
-        <a href="https://github.com/Kalvinci"><span class="k">github</span><span>/Kalvinci</span></a>
+        <a href="https://www.linkedin.com/in/kalyanasundharamkathiresan" target="_blank" rel="noopener noreferrer"><span class="k">linkedin</span><span>/in/kalyanasundharamkathiresan</span></a>
+        <a href="https://github.com/Kalvinci" target="_blank" rel="noopener noreferrer"><span class="k">github</span><span>/Kalvinci</span></a>
       </div>
     </div>
   </section>
@@ -563,7 +718,7 @@
 <footer>
   <div class="wrap foot">
     <span>© 2026 Kalyanasundharam Kathiresan · Northern Virginia</span>
-    <span class="foot-links"><a href="https://github.com/Kalvinci">GitHub</a><a href="https://www.linkedin.com/in/kalyanasundharamkathiresan">LinkedIn</a><a href="#top">Back to top ↑</a></span>
+    <span class="foot-links"><a href="https://github.com/Kalvinci" target="_blank" rel="noopener noreferrer">GitHub</a><a href="https://www.linkedin.com/in/kalyanasundharamkathiresan" target="_blank" rel="noopener noreferrer">LinkedIn</a><a href="#top">Back to top ↑</a></span>
   </div>
 </footer>
 
@@ -664,6 +819,14 @@
       ctx.strokeStyle = 'rgba(94,201,213,' + (l[2] * 0.24) + ')'; ctx.lineWidth = 1;
       ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
     });
+    if (mouse) nodes.forEach(function (n) {
+      var dx = n.x - mouse.x, dy = n.y - mouse.y, d = Math.sqrt(dx * dx + dy * dy);
+      if (d < 190) {
+        ctx.strokeStyle = 'rgba(240,162,59,' + ((1 - d / 190) * 0.55) + ')'; ctx.lineWidth = 1;
+        ctx.beginPath(); ctx.moveTo(mouse.x, mouse.y); ctx.lineTo(n.x, n.y); ctx.stroke();
+        n.x -= dx * 0.004; n.y -= dy * 0.004;
+      }
+    });
     nodes.forEach(function (n) {
       ctx.fillStyle = n.r > 2 ? 'rgba(240,162,59,0.55)' : 'rgba(138,151,168,0.6)';
       ctx.beginPath(); ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2); ctx.fill();
@@ -682,6 +845,11 @@
     requestAnimationFrame(draw);
   }
   resize(); addEventListener('resize', resize);
+  var mouse = null;
+  addEventListener('pointermove', function (e) {
+    var r = cv.getBoundingClientRect(), my = e.clientY - r.top;
+    mouse = (e.pointerType !== 'touch' && my < H) ? { x: e.clientX - r.left, y: my } : null;
+  }, { passive: true });
   document.addEventListener('visibilitychange', function () { var was = running; running = !document.hidden; if (running && !was) requestAnimationFrame(draw); });
   if ('IntersectionObserver' in window) {
     new IntersectionObserver(function (es) { var was = running; running = es[0].isIntersecting && !document.hidden; if (running && !was) requestAnimationFrame(draw); }).observe(cv);
@@ -732,7 +900,7 @@
       var cy = r.y, pos = { c: { x: x0 + bw / 2, y: cy }, m: { x: x1 + bw / 2, y: cy }, t: { x: x2 + bw / 2, y: cy } };
       txt(ctx, r.label, pad, cy - bh / 2 - 12, { color: r.mid ? C.amber : C.cyan, size: 9 });
       line(ctx, x0 + bw, cy, x2, cy, C.line2);
-      box(ctx, x0, cy - bh / 2, bw, bh, 'cart');
+      box(ctx, x0, cy - bh / 2, bw, bh, 'service');
       if (r.mid) box(ctx, x1, cy - bh / 2, bw, bh, 'middleman', { dash: true, stroke: C.amber, color: C.amber });
       else { ctx.globalAlpha = .25; box(ctx, x1, cy - bh / 2, bw, bh, 'middleman', { dash: true }); ctx.globalAlpha = 1; line(ctx, x1 + 8, cy - bh / 2 + 6, x1 + bw - 8, cy + bh / 2 - 6, C.muted); }
       box(ctx, x2, cy - bh / 2, bw, bh, 'tax API');
@@ -773,11 +941,11 @@
   // ---------- Brightspot: cascade engine ----------
   var CN = { levels: [[0], [1, 2, 3], [4, 5, 6, 7], [8, 9]], parents: { 1: [0], 2: [0], 3: [0], 4: [1], 5: [1], 6: [2], 7: [3], 8: [4, 5], 9: [6, 7] } };
   var children = {}; Object.keys(CN.parents).forEach(function (k) { CN.parents[k].forEach(function (p) { (children[p] = children[p] || []).push(+k); }); });
-  var sched = (function () {
-    var s = { 0: { enq: 0.3, start: 0.3, end: 0.9, w: -1 } }, queue = [], free = [0, 0, 0], busy = [null, null, null], now = 0, dt = 0.01, dur = 0.7, queued = { 0: 1 };
-    var pending = [{ id: 0, at: 0.9 }];
+  var IDLE = { enq: 1e9, start: 1e9, end: 1e9, w: -2 }, cascadeRoot = 0, cascadePos = {};
+  function buildSched(root) {
+    var s = {}, queue = [], busy = [null, null, null], now = 0, dt = 0.01, dur = 0.7, queued = {}, pending = [{ id: root, at: 0.9 }];
+    s[root] = { enq: 0.3, start: 0.3, end: 0.9, w: -1 }; queued[root] = 1;
     while (now < 12) {
-      // completions
       for (var w = 0; w < 3; w++) if (busy[w] !== null && s[busy[w]].end <= now + 1e-9) { pending.push({ id: busy[w], at: now }); busy[w] = null; }
       pending = pending.filter(function (p) {
         if (p.at > now + 1e-9) return true;
@@ -788,15 +956,20 @@
       now = Math.round((now + dt) * 100) / 100;
     }
     return s;
-  })();
+  }
+  var sched = buildSched(0);
+  function S(k) { return sched[k] || IDLE; }
   function drawCascade(ctx, W, H, t) {
     var cyc = 6.5, tt = (reduce || REST) ? 2.6 : t % cyc, pad = 18, gw = W * 0.56, pos = {};
     CN.levels.forEach(function (lv, li) {
       lv.forEach(function (id, i) { pos[id] = { x: pad + 14 + (gw - pad - 28) * (i + 1) / (lv.length + 1), y: 26 + li * ((H - 52) / 3) }; });
     });
-    Object.keys(CN.parents).forEach(function (k) { CN.parents[k].forEach(function (p) { var a = pos[p], b = pos[k], done = tt >= sched[k].end; line(ctx, a.x, a.y, b.x, b.y, done ? 'rgba(94,201,213,0.45)' : C.line2, done ? 1.4 : 1); }); });
+    cascadePos = pos;
+    Object.keys(CN.parents).forEach(function (k) { CN.parents[k].forEach(function (p) { var a = pos[p], b = pos[k], done = sched[p] && tt >= S(k).end; line(ctx, a.x, a.y, b.x, b.y, done ? 'rgba(94,201,213,0.45)' : C.line2, done ? 1.4 : 1); }); });
+    var maxEnd = 0;
     Object.keys(pos).forEach(function (k) {
-      var s = sched[k], p = pos[k], r = 9;
+      var s = S(k), p = pos[k], r = 9;
+      if (sched[k]) maxEnd = Math.max(maxEnd, s.end);
       var state = tt >= s.end ? 'done' : tt >= s.start ? 'run' : tt >= s.enq ? 'queued' : 'idle';
       ctx.beginPath(); ctx.arc(p.x, p.y, r, 0, 7);
       ctx.fillStyle = state === 'done' ? C.cyan : C.panel; ctx.fill();
@@ -804,14 +977,14 @@
       if (state === 'run') { var f = (tt - s.start) / (s.end - s.start); ctx.beginPath(); ctx.arc(p.x, p.y, r + 4, -Math.PI / 2, -Math.PI / 2 + f * Math.PI * 2); ctx.strokeStyle = C.amber; ctx.lineWidth = 2; ctx.stroke(); }
       txt(ctx, String(k), p.x, p.y + 0.5, { align: 'center', size: 8, color: state === 'done' ? C.bg : C.text });
     });
-    if (tt >= 0.3 && tt < 0.9) txt(ctx, 'edit', pos[0].x + 16, pos[0].y, { color: C.amber, size: 9 });
-    // queue
+    var rp = pos[cascadeRoot];
+    if (tt >= 0.3 && tt < 0.9) txt(ctx, 'edit', rp.x + 16, rp.y, { color: C.amber, size: 9 });
     var qx = gw + 10, qw = W - pad - qx;
     txt(ctx, 'QUEUE', qx, 22, { size: 9, color: C.amber });
-    var inQ = Object.keys(sched).filter(function (k) { var s = sched[k]; return k !== '0' && tt >= s.enq && tt < s.start; }).sort(function (a, b) { return sched[a].enq - sched[b].enq; });
+    var inQ = Object.keys(sched).filter(function (k) { var s = sched[k]; return +k !== cascadeRoot && tt >= s.enq && tt < s.start; }).sort(function (a, b) { return sched[a].enq - sched[b].enq; });
     rr(ctx, qx, 32, qw, 26, 5); ctx.strokeStyle = C.line2; ctx.lineWidth = 1; ctx.stroke();
     inQ.slice(0, 6).forEach(function (k, i) { var cw = Math.min(26, (qw - 8) / 6 - 4); rr(ctx, qx + 5 + i * (cw + 4), 37, cw, 16, 3); ctx.fillStyle = 'rgba(240,162,59,0.18)'; ctx.fill(); ctx.strokeStyle = C.amber; ctx.stroke(); txt(ctx, k, qx + 5 + i * (cw + 4) + cw / 2, 45.5, { align: 'center', size: 8, color: C.amber }); });
-    if (!inQ.length) txt(ctx, tt > 4 ? 'drained' : 'empty', qx + 8, 45, { size: 9 });
+    if (!inQ.length) txt(ctx, tt >= maxEnd ? 'drained' : 'empty', qx + 8, 45, { size: 9 });
     txt(ctx, 'WORKER THREADS', qx, 80, { size: 9, color: C.cyan });
     for (var w = 0; w < 3; w++) {
       var y = 92 + w * 26;
@@ -980,6 +1153,19 @@
       navigator.clipboard.writeText(email).then(function () { flash('Copied', true); }, function () { legacyCopy(email) ? flash('Copied', true) : selectEmail(); });
     } else { legacyCopy(email) ? flash('Copied', true) : selectEmail(); }
   });
+})();
+</script>
+<script>
+(function () {
+  // ---------- Experience timeline rail ----------
+  var log = document.querySelector('.log'), entries = log ? log.querySelectorAll('.entry') : [];
+  function rail() {
+    if (!log) return;
+    var r = log.getBoundingClientRect(), mid = innerHeight * 0.6, p = (mid - r.top) / r.height;
+    log.style.setProperty('--fill', Math.max(0, Math.min(1, p)));
+    entries.forEach(function (en) { en.classList.toggle('lit', en.getBoundingClientRect().top + 30 < mid); });
+  }
+  addEventListener('scroll', rail, { passive: true }); addEventListener('resize', rail); rail();
 })();
 </script>
 </body>
